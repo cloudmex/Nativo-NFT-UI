@@ -266,5 +266,18 @@
         "prefUsr" : "Preferencias del usuario",
         "language" : "Idioma",
         "addNTV" : "Agregar mis NTVs a mi wallet"
+    },
+    "Offers" : {
+        "title" : "Mis ofertas",
+        "tab1" : "Ofertas Recibidas",
+        "tab2" : "Ofertas Realizadas",
+        "tab1-bidder" : "Ofertante:",
+        "tab1-bid" : "Oferta:",
+        "detailNFT" : "Ver detalle del NFT",
+        "acceptBid" : "Aceptar oferta",
+        "tab1-msg" : "No has recibido ofertas",
+        "tab2-owner" : "Dueño:",
+        "cancelBid" : "Cancelar oferta",
+        "tab2-msg" : "Aun no has realizado ninguna oferta"
     }
 }

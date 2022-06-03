@@ -22,6 +22,7 @@ import TokensCollection from "./views/tokensCollection"
 import SalesGallery from "./views/salesGallery"
 import ProfileData from "./views/profileData"
 import Profile from "./views/profile"
+import offers from './views/myOffers'
 
 import notFound from "./views/notFound.view";
 
@@ -71,6 +72,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Landing} />
             <BlockchainProtectedRoute path="/create" component={Mint} />
+            <BlockchainProtectedRoute path="/myOffers" component={offers} />
             <BlockchainProtectedRoute path="/profileData/:state" component={ProfileData} />
             <BlockchainProtectedRoute path="/createcollection" component={creCol} />
             <Route path="/profile" component={Profile} />
