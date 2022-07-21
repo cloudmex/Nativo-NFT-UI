@@ -7,6 +7,7 @@ import { ApolloClient, InMemoryCache, gql } from '@apollo/client'
 import { acceptedFormats, currencys } from "../utils/constraint";
 import load from "../assets/landingSlider/img/loader.gif";
 import uploadImg from "../assets/img/UPLOAD.png";
+import { uploadFileAPI } from '../utils/pinata'
 import {
   addNetwork,
   fromETHtoWei,
@@ -46,6 +47,22 @@ function LightHeroE(props) {
     let data = [...formFields];
     data[index][event.target.name] = event.target.value;
     setFormFields(data);
+  }
+
+  async function uploadFilePinata(e){
+    let file = e.target.files[0]
+    setmint({ ...mint, file: URL.createObjectURL(e.target.files[0]) });
+    let cid = await uploadFileAPI(file)
+    formik.setFieldValue("image", cid);
+    console.log(cid)
+  }
+
+  async function uploadFilePinata(e){
+    let file = e.target.files[0]
+    setmint({ ...mint, file: URL.createObjectURL(e.target.files[0]) });
+    let cid = await uploadFileAPI(file)
+    formik.setFieldValue("image", cid);
+    console.log(cid)
   }
 
   const submit = (e) => {
@@ -297,7 +314,7 @@ function LightHeroE(props) {
                     <img src={uploadImg} className="h-[150px] lg:h-[250px] object-contain"></img><span className="text-sm">{t("Profile.upImg")}</span></div>}
                   </div>
                   <input
-                    onChange={imageChange}
+                    onChange={uploadFilePinata}
                     onClick={imageClick}
                     type="file"
                     id="image"
