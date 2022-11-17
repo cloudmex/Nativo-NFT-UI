@@ -470,7 +470,7 @@ function Trendings() {
                                 <div class="flex flex-col  mx-2 mt-2  ">
                                   <div className="   w-full uppercase tracking-tighter text-black text-base	   font-open-sans  font-extrabold    collection-description h-[50px] justify-center items-center">{item.title}</div>
                                   <div className="   w-full uppercase tracking-tighter text-xs text-left font-bold justify-center font-open-sans leading-4 text-black  text-ellipsis overflow-hidden whitespace-pre">{t("Landing.popular_col-by") + " " + item.owner}</div>
-                                  <div className="   w-full   text-xs  text-black text-left justify-center font-normal font-open-sans  text-ellipsis overflow-hidden whitespace-nowrap">{item.tokenCount > 999 ? "+" + item.tokenCount + "k " : item.tokenCount + " "} <a className="w-full   text-xs text-black font-open-sans font-normal tracking-wide leading-4  text-left justify-center "> {t("Landing.popular_col-tokens_on")}</a></div>
+                                  <div className="   w-full   text-xs  text-black text-left justify-center font-normal font-open-sans  text-ellipsis overflow-hidden whitespace-nowrap"> <p className="w-full   text-xs text-black font-open-sans font-normal tracking-wide leading-4  text-left justify-center ">{item.tokenCount > 999 ? "+" + item.tokenCount + "k " : item.tokenCount + " "} {t("Landing.popular_col-tokens_on")}</p></div>
                                 </div>
                               </div>
                             </div>

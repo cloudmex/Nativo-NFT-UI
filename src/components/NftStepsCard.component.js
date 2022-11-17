@@ -40,11 +40,13 @@ function NftStepsCard({card}) {
         <div className="mx-auto  w-1/3 mt-2 lg:mt-1">
         <img
           className="h-[60px] w-[60px] mx-auto absolute z-20 ml-[25px]"
+          alt={card.alt}
           src={card.imgSrc}
         />
         <img
           className="h-[100px] w-[100px] mx-auto absolute z-10  -mt-[17px]"
           src={card.bgSrc}
+          alt={card.alt}
         />
       </div>
 
@@ -61,6 +63,7 @@ function NftStepsCard({card}) {
               <img
             className="h-[24px] w-[24px] mx-auto ml-[5px]"
             src={card.arrow}
+            alt={card.alt}
           />
             </button>
           )}

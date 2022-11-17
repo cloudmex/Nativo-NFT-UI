@@ -25,6 +25,7 @@ function NftSteps(props) {
   const steps = [
     {
       imgSrc: Wallet_Icon,
+      alt: "Wallet_Icon",
       bgSrc: Ellipse_7,
       text: t("Landing.steps-connect"),
       sub: t("Landing.steps-sub1"),
@@ -33,6 +34,7 @@ function NftSteps(props) {
     },
     {
       imgSrc: Collection_Icon,
+      alt: "Collection_Icon",
       bgSrc: Ellipse_7,
       text: t("Landing.steps-create"),
       sub: t("Landing.steps-sub2"),
@@ -41,6 +43,7 @@ function NftSteps(props) {
     },
     {
       imgSrc: NFTImage_Icon,
+      alt: "NFTImage_Icon",
       bgSrc: Ellipse_7,
       text: t("Landing.steps-add"),
       sub: t("Landing.steps-sub3"),
@@ -49,6 +52,7 @@ function NftSteps(props) {
     },
     {
       imgSrc: Money_Icon,
+      alt: "Money_Icon",
       bgSrc: Ellipse_7,
       text: t("Landing.steps-sell"),
       sub: t("Landing.steps-sub4"),
