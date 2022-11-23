@@ -102,6 +102,7 @@ function LightHeaderB(props) {
             console.log('error: ', err)
           });
         let loggedAccount2 = accountId;
+        window.localStorage.setItem("logged_account",accountId)
         userMedia = window.localStorage.getItem('userMedia');
         // let json2 = "";
         // if (loggedAccount2) {
@@ -310,7 +311,7 @@ function LightHeaderB(props) {
                             </div>
                           }
                           <div className="font-raleway font-bold text-black text-sm  items-center ml-3 hidden md:hidden hiddenUserName">
-                            {state.owner}
+                            {state.owner }
                           </div>
 
                         </div>
