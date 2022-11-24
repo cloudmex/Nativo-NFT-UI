@@ -333,7 +333,11 @@
         "offerAlert2Txt-2" : "To be able to bid on an NFT it is necessary that the offer is less than the sale price",
         "priceAlert" : "Invalid price",
         "priceAlertTxt" : "The price you want to change must be lower or higher than the current one",
-        "transfer": "Transfer"
+        "transfer": "Transfer",
+        "skip_tittle": "Skip for now",
+        "skip_description": "Don´t worry,you'll be able to add to collction or set it a price at the your NFT's details",
+        "skip_accept": "Sure!"
+
     },
     "Profile" : {
         "title" : "Create profile",

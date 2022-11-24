@@ -333,7 +333,12 @@
         "offerAlert2Txt-2" : "Para poder ofertar por un NFT es necesario que la oferta sea menor al precio de venta",
         "priceAlert" : "Precio no valido",
         "priceAlertTxt" : "El precio que deseas cambiar debe ser menor o mayor al actual",
-        "transfer": "Transferir"
+        "transfer": "Transferir",
+        "skip_tittle": "Saltar por ahora",
+        "skip_description": "No te preocupues,podrás agregarlo a una colleción o asignarle un precio en los detalles de tus NFT's",
+        "skip_accept": "Seguro!"
+
+
     },
     "Profile" : {
         "title" : "Crear perfil",

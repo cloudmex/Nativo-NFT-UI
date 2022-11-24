@@ -9,7 +9,7 @@ import { acceptedFormats, currencys } from "../utils/constraint";
 import back_arrow from "../assets/img/Back_arrow.png";
 import upfile from "../assets/img/upfile.png";
 import nearicon from "../assets/img/Vectornear.png";
-
+import { useHistory } from "react-router";
  
 import {
   estimateGas,
@@ -41,7 +41,7 @@ function LightHeroE(props) {
     collection: 0,
     royalties: {},
   });
- 
+  const history = useHistory();
   const [colID, setColID] = useState(-1);
   const [colName, setColName] = useState("");
 
@@ -663,7 +663,7 @@ const transactions= [];
               {/* Here goes the info nft  */}
               <div name="create" className="w-full bg-white md:w-2/5 lg:w-4/12 lg:items-center ">
                 <div name="cancel" className="mt-4 px-6   text-white  ">
-                  <Button className="   "   >
+                  <Button className=" hover:bg-black  "  onClick={history.goBack} >
                     <img className="" alt="back_arrow" src={back_arrow}></img>{" "}
                     <a className=" px-2 mt-2 text-[#616161]">
                       {t("MintNFT.cancel")}{" "}
@@ -673,17 +673,12 @@ const transactions= [];
                 <div className="w-full h-full pb-6 flex flex-col px-6       ">
                   <div classn="tab flex flex-row drop-shadow-md ">
                     <button onClick={setHide_create_nft}>
-                      <h3 className=" text-black py-2 rounded-md hover:bg-darkgray hover:text-white hover:scale-110 tracking-tighter text-xl 	 font-open-sans font-bold ">
+                      <h3 className=" text-black py-2 rounded-md   hover:text-white hover:scale-110 tracking-tighter text-xl 	 font-open-sans font-bold ">
                         {" "}
                         {t("MintNFT.createNFT")}
                       </h3>
                     </button>
-                    <button hidden={true} onClick={setHide_create_coll}>
-                      <h3 className=" text-black  py-2 rounded-md hover:bg-darkgray hover:text-white hover:scale-110 tracking-tighter mx-2 text-xl	 font-open-sans font-bold ">
-                        {" "}
-                        {t("MintNFT.errCol-3")}
-                      </h3>
-                    </button>
+                   
                   </div>
 
                   <div name="nft" hidden={hide_create_col}>
@@ -802,7 +797,7 @@ const transactions= [];
                               placeholder={t("MintNFT.maxTitle2")}
                               rows="5"
                               {...formik.getFieldProps("description")}
-                              className={`font-open-sans p-2 h-full dark:bg-white dark:text-darkgray rounded-lg  text-left justify-center  w-full`}
+                              className={`font-open-sans p-2 h-full dark:bg-white dark:text-darkgray rounded-md   text-left justify-center  w-full`}
                             />
                           </div>
 
@@ -1051,7 +1046,7 @@ const transactions= [];
                             ) : null}
                           </div>
 
-                          <div className="  font-open-sans  p-2 border border-[#A4A2A4]   dark: dark:text-darkgray   text-left rounded-lg justify-center  w-full h-[130px] mx-0     mb-2 ">
+                          <div className="  font-open-sans  p-2 border border-[#A4A2A4]   dark: dark:text-darkgray   text-left rounded-md  justify-center  w-full h-[130px] mx-0     mb-2 ">
                             <textarea
                               type="textarea"
                               id="description"
@@ -1163,7 +1158,7 @@ const transactions= [];
                 <div
                 name="nft_detail"
                 
-                className={ "  px-4 md:px-8  py-8  md:py-20  lg:mx-auto  w-full   md:w-[460px]  lg:w-[470px]  drop-shadow-md       md:flex-row flex-col  md:justify-center    "    }          >
+                className={ "  px-4 md:px-8  py-8  md:py-20  lg:mx-auto  w-full md:w-5/6  lg:w-2/5  drop-shadow-md       md:flex-row flex-col  md:justify-center    "    }          >
                 <div
                   name="card"
                   className={
