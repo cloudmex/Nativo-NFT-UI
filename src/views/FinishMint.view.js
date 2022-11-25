@@ -387,6 +387,10 @@ function LightHeroE(props) {
        ...state,
        show: true,
        token: LToken,
+       existcollections:noCollections,
+       collections:collectionData,
+       nearprice:near_price,
+       nearicon:nearicon
     //   message: t('Detail.msgAddToken2'),
     //   loading: false,
     //   disabled: false,

@@ -302,6 +302,8 @@
         "AccetTerms":"Acepta los terminos y condicicones primero ",
         "Skip" : "Saltar",
         "Savecongrats":"Guardar",
+        "alertoptions":"Selecciona alguna opción",
+
         "alertCol":"Selecciona una colección",
         "alertPrice":"Selecciona un precio mayor a 0",
         "btnRemove" : "Quitar",

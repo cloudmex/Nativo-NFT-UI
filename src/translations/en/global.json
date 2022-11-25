@@ -309,6 +309,8 @@
         "congratsYourNft" : "Your NFT has been created",
         "Savecongrats":"Save",
         "AccetTerms":"Accept terms and conditions first",
+        "alertoptions":"Select one option",
+
         "alertCol":"Select a collection",
         "alertPrice":"Select a higher price than 0",
         "cancel":"Cancel"
