@@ -307,7 +307,10 @@
         "new" : "New NFT",
         "congrats" : "Congrats!",
         "congratsYourNft" : "Your NFT has been created",
-
+        "Savecongrats":"Save",
+        "AccetTerms":"Accept terms and conditions first",
+        "alertCol":"Select a collection",
+        "alertPrice":"Select a higher price than 0",
         "cancel":"Cancel"
     },
     "Modal" : {

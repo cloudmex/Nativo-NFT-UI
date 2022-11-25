@@ -299,8 +299,11 @@
         "placePercent" : "Porcentaje",
         "PendingPrice" : "Precio pendiente",
         "SetPrice" : "Poner Precio",
+        "AccetTerms":"Acepta los terminos y condicicones primero ",
         "Skip" : "Saltar",
-
+        "Savecongrats":"Guardar",
+        "alertCol":"Selecciona una colección",
+        "alertPrice":"Selecciona un precio mayor a 0",
         "btnRemove" : "Quitar",
         "btnRoyalties" : "Añadir regalias",
         "new" : "Nuevo NFT",
