@@ -376,12 +376,20 @@ export default function Set_token_detailModal(props) {
   return (
     props.show && (
       <>
-        <div className="   justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+     
+        <div className="  ">
           {/*content*/}
-          <div className="w-4/6  items-center  bg-white shadow-lg p-8 flex  outline-none focus:outline-none rounded-xlarge">
+        
+
+       <div className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
+
+        <div className="w-4/6  items-center  bg-white shadow-lg p-8 flex   outline-none focus:outline-none rounded-xlarge">
             {/*header*/}
 
-            <div name="nft" className="rounded-md w-1/2  px-2 flex flex-col   ">
+            
+             
+
+<div name="nft" className="rounded-md w-1/2  px-2 flex flex-col   ">
               <div className="w-full  h-[250px] xl:h-[350px]  2xl:h-[650px] overflow-hidden rounded-t-md   bg-[#EBEBEB]">
                 <img
                   className="w-full h-full object-cover object-center "
@@ -432,11 +440,7 @@ export default function Set_token_detailModal(props) {
               </div>
             </div>
 
-            <div
-              name="detail"
-             
-              className="w-1/2 mx-2"
-            >
+            <div name="detail"    className="w-1/2 mx-2" >
               <div className="w-full flex flex-col gap-2">
                 <>
                   <div className="w-full flex justify-between">
@@ -602,7 +606,7 @@ export default function Set_token_detailModal(props) {
                         SetPrice_modal();
                       }}
                     >
-                      {t("MintNFT.Savecongrats")}
+                      {t("MintNFT.Continuecongrats")}
                     </button>
                   </>
                 )}
@@ -615,9 +619,14 @@ export default function Set_token_detailModal(props) {
                 </button>
               </div>
             </div>
-          </div>
+            </div>
+            
+       </div>
+          
+
+          
         </div>
-        <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        <div className="opacity-25 fixed inset-0 z-30 bg-black"></div>
       </>
     )
   );
