@@ -308,7 +308,7 @@ function LightHeroE(props) {
         price: price,
         title: LToken?.metadata?.title,
         media: LToken?.metadata?.media,
-        creator_id: LToken?.creator,
+        creator_id: LToken?.creator_id,
         description: LToken?.metadata?.description,
       });
       let payload_price = {
@@ -384,6 +384,29 @@ function LightHeroE(props) {
     setTerms(!terms);
   };
 
+  const getsize =()=>{
+    if ( window.innerWidth >= 640 && window.innerWidth < 768){
+      return  "sm: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 768 && window.innerWidth < 1024){
+      return  "md: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 1024 && window.innerWidth < 1280){
+      return  "lg: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 1280 && window.innerWidth < 1536){
+      return  "xl: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 1536 && window.innerWidth < 2072 ){
+      return  "2xl: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 2072 && window.innerWidth < 2560 ){
+      return  "3xl: "+window.innerWidth +" px"
+    }
+    if ( window.innerWidth >= 2560 ){
+      return  "4xl: "+window.innerWidth +" px"
+    }
+  }
   const show_modal = () =>{
     // temporal
     setShowDetailModal(true);
@@ -395,7 +418,9 @@ function LightHeroE(props) {
        existcollections:noCollections,
        collections:collectionData,
        nearprice:near_price,
-       nearicon:nearicon
+       nearicon:nearicon,
+       change: setAddTokenModal,
+
     //   message: t('Detail.msgAddToken2'),
     //   loading: false,
     //   disabled: false,
@@ -452,6 +477,7 @@ function LightHeroE(props) {
                       <h3 className=" text-black  rounded-md  hover:text-white hover:scale-110 tracking-tighter text-4xl      font-open-sans font-bold ">
                         {" "}
                         {t("MintNFT.congrats")}
+                       
                       </h3>
                     
                   </div>
@@ -748,7 +774,7 @@ function LightHeroE(props) {
               <div
                 name="nft_detail"
                 className={
-                  "  px-4 md:px-8  mx-auto   mt-4 md:mt-16    w-full h-full    md:w-3/5  xl:w-3/6	       drop-shadow-xl       md:flex-row flex-col  md:justify-center xl:justify-center    "
+                  "  px-4 md:px-8  mx-auto   mt-4 md:mt-16    w-11/12 h-full    md:w-3/5  lg:w-6/12 xl:w-6/12	       drop-shadow-xl       md:flex-row flex-col  md:justify-center xl:justify-center    "
                 }
               >
                 <div
@@ -759,7 +785,7 @@ function LightHeroE(props) {
                     //h-7/12
                     //     md:h-screen lg:h-screen  xl:h-screen
                   }
-                  <div className="w-full h-[280px] md:h-2/5 lg:h-3/5  xl:h-3/5   overflow-hidden rounded-t-lg   bg-[#EBEBEB]">
+                  <div className="w-full h-[350px] md:h-[400px]  lg:h-[450px]  xl:h-[500px]  2xl:h-[900px] overflow-hidden rounded-t-lg  xl:rounded-t-xl bg-[#EBEBEB]">
                     <img
                       className="w-full h-full object-cover object-center "
                       alt="hero"
@@ -768,7 +794,7 @@ function LightHeroE(props) {
                   </div>
                   <div
                     name="card_det"
-                    className="w-full xl:h-3/12    rounded-b-xl   pt-4 px-4  mb-4   bg-white  "
+                    className="w-full xl:h-3/12    rounded-b-xl  xl:rounded-t-2xl  pt-4 px-4  mb-4   bg-white  "
                   >
                     <p className=" text-black  text-2xl text-ellipsis    md:text-xl  lg:text-2xl  xl:text-3xl  font-bold font-open-sans">
                       {LToken?.metadata

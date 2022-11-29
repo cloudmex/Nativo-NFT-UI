@@ -52,7 +52,7 @@ export default function Set_token_detailModal(props) {
 
   const SetPrice_modal = async (e) => {
     //heres start the batch transaction
-    
+
     const transactions = [];
     //validate form
     let contract = await getNearContract();
@@ -60,7 +60,7 @@ export default function Set_token_detailModal(props) {
     // if(!hide_set_price_m && !hide_create_col_m){
     //   console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_col_m", hide_set_col_m)
     //   console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_price_m", hide_set_price_m)
-      
+
     //   Swal.fire({
     //     position: "top-center",
     //     icon: "warning",
@@ -70,9 +70,9 @@ export default function Set_token_detailModal(props) {
     //   });
     //   return;
     // }
+    let price = fromNearToYocto(new_token_price_m);
 
-
-    if ( new_token_price_m <= 0) {
+    if (new_token_price_m <= 0) {
       Swal.fire({
         position: "top-center",
         icon: "warning",
@@ -81,7 +81,7 @@ export default function Set_token_detailModal(props) {
         timer: 2000,
       });
     }
-    if ( colID_m < 0) {
+    if (colID_m < 0) {
       Swal.fire({
         position: "top-center",
         icon: "warning",
@@ -91,15 +91,14 @@ export default function Set_token_detailModal(props) {
       });
       return;
     }
-    if ( new_token_price_m > 0) {
-      let price = fromNearToYocto(new_token_price_m);
+    if (new_token_price_m > 0) {
       let msgData = JSON.stringify({
         market_type: "on_sale",
         price: price,
         title: props.token?.metadata?.title,
         media: props.token?.metadata?.media,
-        creator_id: props.token?.creator,
-        description:props.token?.metadata?.description,
+        creator_id: props.token?.creator_id,
+        description: props.token?.metadata?.description,
       });
       let payload_price = {
         token_id: props.token?.token_id,
@@ -120,21 +119,25 @@ export default function Set_token_detailModal(props) {
             },
           },
         ],
-        walletCallbackUrl: "/mynfts".toString(),
+      
       });
     }
-   
 
-    if ( colID_m >= 0) {
+    if (colID_m >= 0) {
+      
+
       let Col_payload = {
         contract_id: process.env.REACT_APP_CONTRACT,
+        owner_id: props.token?.owner_id,
+        token_id: props.token?.token_id,
         title: props.token?.metadata?.title,
         description: props.token?.metadata?.description,
         media: props.token?.metadata?.media,
-        collection_id: parseInt(colID_m),
-      };
-
-      transactions.push({
+        creator: props.token?.creator_id,
+        price: 10,
+        collection_id: parseInt(colID_m)
+      }
+      transactions.push({  
         signerId: accountId,
         receiverId: process.env.REACT_APP_CONTRACT_MARKET,
         actions: [
@@ -144,24 +147,24 @@ export default function Set_token_detailModal(props) {
               methodName: "add_token_to_collection",
               args: Col_payload,
               gas: 300000000000000,
-              deposit: 0,
+              deposit: 1,
             },
           },
         ],
       });
     }
- 
+
     console.log(
       "🪲 ~ file: FinishMint.view.js ~ line 323 ~ SetPrice ~ transactions",
       transactions
     );
-
     //we're simulating that the transaction is donde
     window.localStorage.setItem("last_token", LToken_m?.token_id);
     window.localStorage.setItem("price_setted", true);
+
     
     const wallet = await selector.wallet();
-
+ 
     return wallet.signAndSendTransactions({ transactions }).catch((err) => {
       alert("Failed to add messages exception " + err);
       console.log("Failed to add messages");
@@ -230,9 +233,11 @@ export default function Set_token_detailModal(props) {
           console.log("error: ", err);
         });
 
-        
       // if (props.show) {
-      console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 234 ~ props", props)
+      console.log(
+        "🪲 ~ file: Set_token_detailsModal.component.js ~ line 234 ~ props",
+        props
+      );
       //   console.log(props)
       //   let userData
       //   let account = accountId
@@ -382,270 +387,270 @@ export default function Set_token_detailModal(props) {
   // });
 
   return (
-    props.show
-     && (
+    props.show && (
       <>
-     
         <div className="  ">
           {/*content*/}
-        
-       <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
-        
 
+          <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
             <div className="w-4/6  items-center  bg-white shadow-lg gap-4  p-4 flex   outline-none focus:outline-none rounded-xlarge">
-                {/*header*/}
+              {/*header*/}
 
-                
-                
+              <div
+                name="nft"
+                className="rounded-lg w-1/2  m-2  flex flex-col drop-shadow-2xl    "
+              >
+                <div className="w-full  h-[200px] lg:h-[300px] xl:h-[400px]  2xl:h-[600px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
+                  <img
+                    className="w-full h-full object-cover object-center "
+                    alt="hero"
+                    src={`https://nativonft.mypinata.cloud/ipfs/${props.token?.metadata?.media}`}
+                  />
+                </div>
+                <div
+                  name="nft_det"
+                  className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
+                >
+                  <p className=" ml-2 text-black capitalize text-md xl:text-xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
+                    {props.token?.metadata?.title}
+                  </p>
 
-    <div name="nft" className="rounded-lg w-1/2  m-2  flex flex-col drop-shadow-2xl    ">
-                  <div className="w-full  h-[200px] xl:h-[350px]  2xl:h-[650px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
-                    <img
-                      className="w-full h-full object-cover object-center "
-                      alt="hero"
-                      src={`https://nativonft.mypinata.cloud/ipfs/${props.token?.metadata?.media}`}
-                    />
-                  </div>
-                  <div
-                    name="nft_det"
-                    className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
-                  >
-                    <p className=" ml-2 text-black capitalize text-md xl:text-xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
-                      {props.token?.metadata?.title}
+                  {props.existcollections && (
+                    <p className=" ml-2 text-black text-sm  xl:text-lg  2xl:text-4xl font-open-sans tracking-wide	 ">
+                      {colID_m === -1
+                        ? t("addToken.comboOpc")
+                        : collectionData.find(({ id }) => id === colID_m)
+                            ?.title}
                     </p>
+                  )}
 
-                    {props.existcollections && (
-                      <p className=" ml-2 text-black text-sm  xl:text-lg  2xl:text-4xl font-open-sans tracking-wide	 ">
-                        {colID_m === -1
-                          ? t("addToken.comboOpc")
-                          : collectionData.find(({ id }) => id === colID_m)?.title}
+                  <div className="ml-2 flex">
+                    <img
+                      className=" mt-1 w-5 h-5  2xl:w-6 2xl:h-6  "
+                      alt="near"
+                      src={props.nearicon}
+                    />
+                    {new_token_price_m > 0 ? (
+                      <p className="text-[#F79336] ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg 2xl:text-3xl ">
+                        {" "}
+                        {new_token_price_m} NEAR
+                      </p>
+                    ) : (
+                      <p className="text-[#F79336] ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg  2xl:text-3xl ">
+                        {" "}
+                        {t("MintNFT.PendingPrice")}
                       </p>
                     )}
-
-                    <div className="ml-2 flex">
-                      <img
-                        className=" mt-1 w-5 h-5  2xl:w-6 2xl:h-6  "
-                        alt="near"
-                        src={props.nearicon}
-                      />
-                      {new_token_price_m > 0 ? (
-                        <p className="text-[#F79336] ml-2  font-bold font-open-sans   text-[11px] xl:text-lg 2xl:text-3xl ">
-                          {" "}
-                          {new_token_price_m} NEAR
-                        </p>
-                      ) : (
-                        <p className="text-[#F79336] ml-2  font-bold font-open-sans   text-[11px] xl:text-lg  2xl:text-3xl ">
-                          {" "}
-                          {t("MintNFT.PendingPrice")}
-                        </p>
-                      )}
-                    </div>
-
-                    <p className="ml-2 text-black content-en mt-2 mb-2   font-open-sans text-[10px]  xl:text-lg 2xl:text-3xl ">
-                      {t("tokCollection.createdBy") +
-                        ": " +
-                        window.localStorage.getItem("logged_account")}{" "}
-                    </p>
                   </div>
+
+                  <p className="ml-2 text-black content-en mt-2 mb-2   font-open-sans text-[10px]  xl:text-lg 2xl:text-3xl ">
+                    {t("tokCollection.createdBy") +
+                      ": " +
+                      window.localStorage.getItem("logged_account")}{" "}
+                  </p>
                 </div>
-                
-                <div name="detail"    className="w-1/2 mx-2 flex flex-col" >
-                
-                <div className="container rounded-full w-full text-end	-mt-4">
-                   <button className="  w-10   " onClick={(e)=>{ props.show=false;}} >
-                  x
-                </button>
+              </div>
+
+              <div name="detail" className="w-1/2 mx-2 flex flex-col">
+                <div className=" container rounded-full w-full text-end align-text-top	-mt-4">
+                  <button
+                    className="  w-10  text-md xl:text-xl 2xl:text-5xl   "
+                    type="button"
+                  
+                  onClick={() => {
+                    
+                    props.change({ show: false })
+                  }}
+                  >
+                    x
+                  </button>
                 </div>
-               
-                  <div className="w-full flex flex-col gap-2">
-                    <>
-                      <div className="w-full flex justify-between">
-                        <label
-                          htmlFor="price"
-                          className=" text-sm  xl:text-2xl  2xl:text-5xl dark:text-darkgray    font-semibold font-raleway"
-                        >
-                          {t("Modal.price")}
-                        </label>
-                        {/* <Switch  
+
+                <div className="w-full flex flex-col gap-2">
+                  <>
+                    <div className="w-full flex justify-between">
+                      <label
+                        htmlFor="price"
+                        className=" text-sm  xl:text-2xl  2xl:text-5xl dark:text-darkgray    font-semibold font-raleway"
+                      >
+                        {t("Modal.price")}
+                      </label>
+                      {/* <Switch  
                           onChange={(e) => {
                             setNew_token_price_m(0);
                             setHide_set_price_m(!hide_set_price_m);
                           }}
                           checked={hide_set_price_m}
                         /> */}
-                      </div>
+                    </div>
 
-                      {true && ( 
-                        <div className="w-full flex gap-2">
-                          <div className="w-[40px] h-[40px]  bg-center  border-2 rounded-full    justify-center items-center">
-                            <img
-                              className=" mt-2 m-auto  w-5 h-5 2xl:w-8 2xl:h-8  "
-                              alt="near"
-                              src={props.nearicon}
-                            />
-                          </div>
-
-                          <div className="w-full relative rounded-md   flex  text-center border-2 ">
-                            <input
-                              type="number"
-                              min="0.1"
-                              max="100000000000000"
-                              step="0.1"
-                              className="w-4/6 text-xs  xl:text-lg  2xl:text-3xl  2xl:h-20 pl-2 h-full"
-                              placeholder={new_token_price_m}
-                              onChange={(e) => {
-                                set_new_price(e);
-                              }}
-                            />
-
-                            <label className="w-2/6 py-2 text-xs items-center xl:text-lg 2xl:text-3xl ">
-                              {}
-                              ≈{" "}
-                              {(new_token_price_m * props.nearprice)
-                                .toString()
-                                .substring(0, 6)}{}
-                              USD
-                            
-                            </label>
-                          </div>
+                    {true && (
+                      <div className="w-full flex gap-2">
+                        <div className="w-[40px] h-[40px]  bg-center  border-2 rounded-full    justify-center items-center">
+                          <img
+                            className=" mt-2 m-auto  w-5 h-5 2xl:w-8 2xl:h-8  "
+                            alt="near"
+                            src={props.nearicon}
+                          />
                         </div>
-                      )}
-                    </>
-                    <hr className="border-t-2 border-yellow2 py-2	"></hr>
-                    <div className="w-full flex justify-between">
-                      <label
-                        htmlFor="collections"
-                        className=" text-sm  xl:text-2xl  2xl:text-3xl dark:text-darkgray    font-semibold font-raleway"
-                      >
-                        {t("addToken.addtocol")}
-                      </label>
-                      {/* <Switch
+
+                        <div className="w-full relative rounded-md   flex  text-center border-2 ">
+                          <input
+                            type="number"
+                            min="0.1"
+                            max="100000000000000"
+                            step="0.1"
+                            className="w-4/6 text-xs  xl:text-lg  2xl:text-3xl  2xl:h-20 pl-2 h-full"
+                            placeholder={new_token_price_m}
+                            onChange={(e) => {
+                              set_new_price(e);
+                            }}
+                          />
+
+                          <label className="w-2/6 py-2 text-xs items-center xl:text-lg 2xl:text-3xl ">
+                            {}≈{" "}
+                            {(new_token_price_m * props.nearprice)
+                              .toString()
+                              .substring(0, 6)}
+                            {}
+                            USD
+                          </label>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                  <hr className="border-t-2 border-yellow2 py-2	"></hr>
+                  <div className="w-full flex justify-between">
+                    <label
+                      htmlFor="collections"
+                      className=" text-sm  xl:text-2xl  2xl:text-3xl dark:text-darkgray    font-semibold font-raleway"
+                    >
+                      {t("addToken.addtocol")}
+                    </label>
+                    {/* <Switch
                         onChange={(e) => {
                           setColID_m(-1);
                           setHide_create_col_m(!hide_create_col_m);
                         }}
                         checked={hide_create_col_m}
                       /> */}
-                                            
+                  </div>
 
-                    </div>
-                  
-                    {true && (
-                      <>
-                        <div name="collections " >
-                          <div className="flex justify-between "></div>
+                  {true && (
+                    <>
+                      <div name="collections ">
+                        <div className="flex justify-between "></div>
 
-                          {noCollections ? (
-                            <>
-                              <div name="collectinos" className="  justify-center">
-                                <p className="   text-center text-2xl 2xl:text-3xl leading-relaxed text-darkgray font-raleway">
-                                  {/* {props.message} */}
-                                </p>
+                        {noCollections ? (
+                          <>
+                            <div
+                              name="collectinos"
+                              className="  justify-center"
+                            >
+                              <p className="   text-center text-2xl 2xl:text-3xl leading-relaxed text-darkgray font-raleway">
+                                {/* {props.message} */}
+                              </p>
+                            </div>
+                            <select
+                              className="text-darkgray 2xl:h-20 2xl:text-3xl p-2 font-raleway"
+                              onChange={(e) => {
+                                setColID_m(e.target.value);
+                                setColName_m(e.target.value);
+                              }}
+                            >
+                              <option key={0} value={-1}>
+                                {t("addToken.comboOpc")}
+                              </option>
+                              {collectionData.length > 0
+                                ? collectionData.map((data) => (
+                                    <option
+                                      className="bg-indigo-500"
+                                      key={data.id}
+                                      value={data.id}
+                                    >
+                                      {data.title} - ID:{data.id}
+                                    </option>
+                                  ))
+                                : null}
+                            </select>
+
+                            <div className="w-full flex ">
+                              <div className="relative group  rounded-full">
+                                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f2b159] to-[#ca7e16] rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div>
                               </div>
-                              <select
-                                className="text-darkgray 2xl:h-20 2xl:text-3xl p-2 font-raleway"
-                                onChange={(e) => {
-                                  setColID_m(e.target.value);
-                                  setColName_m(e.target.value);
-                                }}
+                            </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="flex flex-col  justify-center">
+                              <p className="text-darkgray text-sm 2xl:text-5xl text-left underline decoration-solid	  mb-4">
+                                {t("addToken.msgNoCol")}
+                              </p>
+                              <a
+                                className="relative bg-lime-600 text-white text-center font-bold  text-sm  xl:text-lg  2xl:text-5xl px-6 py-3 rounded-md   ease-linear transition-all duration-150  hover:scale-105"
+                                href="/collectionData/create"
                               >
-                                <option key={0} value={-1}>
-                                  {t("addToken.comboOpc")}
-                                </option>
-                                {collectionData.length > 0
-                                  ? collectionData.map((data) => (
-                                      <option
-                                        className="bg-indigo-500"
-                                        key={data.id}
-                                        value={data.id}
-                                      >
-                                        {data.title} - ID:{data.id}
-                                      </option>
-                                    ))
-                                  : null}
-                              </select>
+                                {t("addToken.btnCol")}
+                              </a>
+                            </div>
+                          </>
+                        )}
+                      </div>
+                    </>
+                  )}
 
-                              <div className="w-full flex ">
-                                <div className="relative group  rounded-full">
-                                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f2b159] to-[#ca7e16] rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div>
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <div className="flex flex-col  justify-center">
-                                <p className="text-darkgray text-sm 2xl:text-5xl text-left underline decoration-solid	  mb-4">
-                                  {t("addToken.msgNoCol")}
-                                </p>
-                                <a
-                                  className="relative bg-lime-600 text-white text-center font-bold  text-sm  xl:text-lg  2xl:text-5xl px-6 py-3 rounded-md   ease-linear transition-all duration-150  hover:scale-105"
-                                  href="/collectionData/create"
-                                >
-                                  {t("addToken.btnCol")}
-                                </a>
-                              </div>
-                            </>
-                          )}
+                  {/*  btn save*/}
 
+                  {true && (
+                    <>
+                      <div className="xl:mt-6">
+                        <input
+                          type="checkbox"
+                          className="2xl:h-10 2xl:w-10 "
+                          name="terms"
+                          id="terms"
+                          value={terms_m}
+                          onChange={AcceptTerms}
+                        />{" "}
+                        <label className="my-auto text-xs lg:text-md xl:text-slg 2xl:text-xl  text-darkgray">
+                          <a
+                            className="hover:underline hover:text-blue"
+                            href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {t("Modal.accept")}
+                          </a>
+                        </label>
+                      </div>
 
-                        </div>
-                      </>
-                    )}
-
-                    {/*  btn save*/}
-
-                    {true && (
-                      <>
-                        <div className="xl:mt-6" >
-                          <input
-                            type="checkbox"
-                            className="2xl:h-10 2xl:w-10 "
-                            name="terms"
-                            id="terms"
-                            value={terms_m}
-                            onChange={AcceptTerms}
-                          />{" "}
-                          <label className="text-xs lg:text-sm xl:text-sm 2xl:text-xl  text-darkgray">
-                            <a className="hover:underline hover:text-blue" 
-                            href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones" target="_blank" rel="noopener noreferrer">
-                              {t("Modal.accept")}
-                            </a>
-
-                        
-                          </label>
-                        </div>
-
-                        <button
-                          disabled={!terms_m}
-                          title={t("MintNFT.AccetTerms")}
-                          className={
-                            !terms_m
-                              ? "w-full  relative rounded-md px-4 py-2 bg-[#A4A2A4]  text-white    text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl 2xl:text-5xl  font-bold "
-                              : "w-full   relative rounded-md px-4 py-2 bg-white hover:bg-green-600  text-green-600  hover:text-white border-2 border-green-600 text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-5xl font-bold "
-                          }
-                          onClick={(e) => {
-                            SetPrice_modal();
-                          }}
-                        >
-                          {t("MintNFT.Continuecongrats")}
-                        </button>
-                      </>
-                    )}
-                    {/* <button
+                      <button
+                        disabled={!terms_m}
+                        title={t("MintNFT.AccetTerms")}
+                        className={
+                          !terms_m
+                            ? "w-full  relative rounded-md px-4 py-2 bg-[#A4A2A4]  text-white    text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl 2xl:text-5xl  font-bold "
+                            : "w-full   relative rounded-md px-4 py-2 bg-white hover:bg-green-600  text-green-600  hover:text-white border-2 border-green-600 text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-5xl font-bold "
+                        }
+                        onClick={(e) => {
+                          SetPrice_modal();
+                        }}
+                      >
+                        {t("MintNFT.Continuecongrats")}
+                      </button>
+                    </>
+                  )}
+                  {/* <button
                       type="submit"
                       onClick={SkipPrice}
                       className={`w-full relative rounded-md px-4 py-2 text-white bg-[#A4A2A4] text-center hover:scale-105  tracking-tighter  font-open-sans text-xs  lg:text-lg xl:text-xl  2xl:text-5xl font-bold `}
                     >
                       {t("MintNFT.Skip")}
                     </button> */}
-                  </div>
                 </div>
+              </div>
             </div>
-            
-       </div>
-          
-
-          
+          </div>
         </div>
         <div className="opacity-25 fixed inset-0 z-30 bg-black"></div>
       </>
