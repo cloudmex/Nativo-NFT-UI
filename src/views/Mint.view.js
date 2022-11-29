@@ -10,7 +10,7 @@ import back_arrow from "../assets/img/Back_arrow.png";
 import upfile from "../assets/img/upfile.png";
 import nearicon from "../assets/img/Vectornear.png";
 import { useHistory } from "react-router";
- 
+
 import {
   estimateGas,
   fromNearToEth,
@@ -20,7 +20,7 @@ import {
   getNearContract,
   storage_byte_cost,
 } from "../utils/near_interaction";
- 
+
 import { uploadFileAPI } from "../utils/pinata";
 import Swal from "sweetalert2";
 import { useTranslation } from "react-i18next";
@@ -33,7 +33,7 @@ function LightHeroE(props) {
   const [mint, setmint] = React.useState({
     file: undefined,
     blockchain: localStorage.getItem("blockchain"),
-    name:undefined
+    name: undefined,
   });
   const [type_info, setType_info] = useState({
     title: "",
@@ -47,7 +47,7 @@ function LightHeroE(props) {
 
   const [t, i18n] = useTranslation("global");
   const [loading, setLoading] = useState(false);
-  
+
   const [noCollections, setNoCollections] = useState(false);
   const [collectionData, setCollectionData] = useState([]);
 
@@ -69,8 +69,6 @@ function LightHeroE(props) {
     setFormFields(data);
   };
 
- 
-
   const addFields = () => {
     let object = {
       account: "",
@@ -88,13 +86,12 @@ function LightHeroE(props) {
     setFormFields(data);
   };
   const removeallFields = () => {
-    
     setFormFields([]);
   };
 
   const APIURL = process.env.REACT_APP_API_TG;
   //guardara todos los valores del formulario
- 
+
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -137,7 +134,6 @@ function LightHeroE(props) {
       let account;
       if (mint.blockchain == "0") {
         //primero nos aseguramos de que la red de nuestro combo sea igual a la que esta en metamask
-       
         //console.log(account);
       }
 
@@ -170,17 +166,17 @@ function LightHeroE(props) {
         //     return err;
         //   });
       } else {
-        console.log("blockchain")
+        console.log("blockchain");
         let percentage = 0;
         let royalties = {};
         let success = true;
         let royalText = "";
-       
+
         if (formFields.length > 0) {
-          console.log("formfields")
+          console.log("formfields");
 
           formFields.map(async (data, index) => {
-            console.log("each formfields")
+            console.log("each formfields");
 
             if (data.account == "" || data.percent == "") {
               Swal.fire({
@@ -230,14 +226,14 @@ function LightHeroE(props) {
             let account = data.account;
             let percent = data.percent;
             percentage = percentage + parseFloat(percent);
-            console.log("index",index);
+            console.log("index", index);
             let info = JSON.parse(
               '{"' + account + '" : ' + percent * 100 + "}"
             );
             royalText = royalText + account + " : " + percent + "%<br>";
             royalties = { ...royalties, ...info };
           });
-         
+
           if (percentage > 50) {
             Swal.fire({
               html:
@@ -258,14 +254,13 @@ function LightHeroE(props) {
           }
         }
 
-//heres start the batch transaction
-const transactions= [];
+        //heres start the batch transaction
+        const transactions = [];
 
-//processs verify the token info(done)
+        //processs verify the token info(done)
 
-
-//buld the payload
-//call the sing transactions
+        //buld the payload
+        //call the sing transactions
         let contract = await getNearContract();
         const data = await contract.account.connection.provider.block({
           finality: "final",
@@ -281,16 +276,17 @@ const transactions= [];
           },
           receiver_id: owner,
         };
-        console.log("🪲 ~ file: Mint.view.js ~ line 315 ~ onSubmit: ~ payload", payload)
+        console.log(
+          "🪲 ~ file: Mint.view.js ~ line 315 ~ onSubmit: ~ payload",
+          payload
+        );
         let amount = fromNearToYocto(process.env.REACT_APP_FEE_CREATE_NFT);
-       // console.log(royalText);
+        // console.log(royalText);
         if (success) {
-
-          console.log("success ")
+          console.log("success ");
 
           if (Object.keys(royalties) != 0) {
-
-            console.log("crear nft ")
+            console.log("crear nft ");
 
             payload = { ...payload, ...{ perpetual_royalties: royalties } };
             Swal.fire({
@@ -310,7 +306,7 @@ const transactions= [];
               confirmButtonText: "Crear NFT",
             }).then(async (result) => {
               if (result.isConfirmed) {
-                console.log("confirmed ")
+                console.log("confirmed ");
 
                 console.log("Creando NFT");
                 const wallet = await selector.wallet();
@@ -332,44 +328,46 @@ const transactions= [];
 
                 //verify if the token will be push to a collection
 
-            if( colID != -1){
-              
-              let Col_payload = {
-                  contract_id:process.env.REACT_APP_CONTRACT,
-                  title: values.title,
-                  description: values.description,
-                  media: values.image,
-                  collection_id:colID
-              };
-              console.log("🪲 ~ file: Mint.view.js ~ line 277 ~ onSubmit: ~ Col_payload", Col_payload)
-            
-              transactions.push({
-                signerId: accountId,
-                receiverId: process.env.REACT_APP_CONTRACT_MARKET,
-                actions: [
-                  {
-                    type: "FunctionCall",
-                    params: {
-                      methodName: "add_token_to_collection_xcc",
-                      args: Col_payload,
-                      gas: 300000000000000,
-                      deposit: 0,
-                    },
-                  },
-                ],
-              });
+                if (colID != -1) {
+                  let Col_payload = {
+                    contract_id: process.env.REACT_APP_CONTRACT,
+                    title: values.title,
+                    description: values.description,
+                    media: values.image,
+                    collection_id: colID,
+                  };
+                  console.log(
+                    "🪲 ~ file: Mint.view.js ~ line 277 ~ onSubmit: ~ Col_payload",
+                    Col_payload
+                  );
 
-              
-            }
+                  transactions.push({
+                    signerId: accountId,
+                    receiverId: process.env.REACT_APP_CONTRACT_MARKET,
+                    actions: [
+                      {
+                        type: "FunctionCall",
+                        params: {
+                          methodName: "add_token_to_collection_xcc",
+                          args: Col_payload,
+                          gas: 300000000000000,
+                          deposit: 0,
+                        },
+                      },
+                    ],
+                  });
+                }
 
-            console.table(transactions);
+                console.table(transactions);
 
-            return wallet.signAndSendTransactions({ transactions }).catch((err) => {
-              alert("Failed to add messages exception " + err);
-              console.log("Failed to add messages");
-      
-              throw err;
-            });
+                return wallet
+                  .signAndSendTransactions({ transactions })
+                  .catch((err) => {
+                    alert("Failed to add messages exception " + err);
+                    console.log("Failed to add messages");
+
+                    throw err;
+                  });
 
                 // let tokenres = await contract.nft_mint(
                 //   payload,
@@ -377,7 +375,7 @@ const transactions= [];
                 //   amount,
                 // )
               } else if (result.isDismissed) {
-                console.log("not confirmd ")
+                console.log("not confirmd ");
 
                 setmint({ ...mint, onSubmitDisabled: false });
               }
@@ -402,17 +400,19 @@ const transactions= [];
 
             //verify if the token will be push to a collection
 
-            if( colID != -1){
-              
+            if (colID != -1) {
               let Col_payload = {
-                  contract_id:process.env.REACT_APP_CONTRACT,
-                  title: values.title,
-                  description: values.description,
-                  media: values.image,
-                  collection_id:colID
+                contract_id: process.env.REACT_APP_CONTRACT,
+                title: values.title,
+                description: values.description,
+                media: values.image,
+                collection_id: colID,
               };
-              console.log("🪲 ~ file: Mint.view.js ~ line 277 ~ onSubmit: ~ Col_payload", Col_payload)
-            
+              console.log(
+                "🪲 ~ file: Mint.view.js ~ line 277 ~ onSubmit: ~ Col_payload",
+                Col_payload
+              );
+
               transactions.push({
                 signerId: accountId,
                 receiverId: process.env.REACT_APP_CONTRACT_MARKET,
@@ -428,29 +428,24 @@ const transactions= [];
                   },
                 ],
               });
-
-              
             }
 
+            console.table("without royalties", transactions);
 
-            console.table("without royalties",transactions);
+            return wallet
+              .signAndSendTransactions({ transactions })
+              .catch((err) => {
+                alert("Failed to add messages exception " + err);
+                console.log("Failed to add messages");
 
-
-            return wallet.signAndSendTransactions({ transactions }).catch((err) => {
-              alert("Failed to add messages exception " + err);
-              console.log("Failed to add messages");
-      
-              throw err;
-            });
+                throw err;
+              });
             // let tokenres = await contract.nft_mint(
             //   payload,
             //   300000000000000,
             //   amount,
             // )
           }
-         
-
-          
         }
       }
       //if de error
@@ -470,8 +465,15 @@ const transactions= [];
 
   async function uploadFilePinata(e) {
     let file = e.target.files[0];
-    console.log("🪲 ~ file: Mint.view.js ~ line 477 ~ uploadFilePinata ~ file", file)
-    setmint({ ...mint, file: URL.createObjectURL(e.target.files[0]) ,name:file?.name });
+    console.log(
+      "🪲 ~ file: Mint.view.js ~ line 477 ~ uploadFilePinata ~ file",
+      file
+    );
+    setmint({
+      ...mint,
+      file: URL.createObjectURL(e.target.files[0]),
+      name: file?.name,
+    });
     let cid = await uploadFileAPI(file);
     formik.setFieldValue("image", cid);
     console.log(cid);
@@ -479,9 +481,15 @@ const transactions= [];
   async function handleAddToken() {
     console.log("Hola este es el handle");
     console.log(colID);
-    console.log("🪲 ~ file: Mint.view.js ~ line 414 ~ handleAddToken ~ colID", colID)
+    console.log(
+      "🪲 ~ file: Mint.view.js ~ line 414 ~ handleAddToken ~ colID",
+      colID
+    );
     if (colID <= -1) {
-      console.log("🪲 ~ file: Mint.view.js ~ line 416 ~ handleAddToken ~ colID", colID)
+      console.log(
+        "🪲 ~ file: Mint.view.js ~ line 416 ~ handleAddToken ~ colID",
+        colID
+      );
       Swal.fire({
         title: t("addToken.alert1-title"),
         text: t("addToken.alert1-msg"),
@@ -511,7 +519,6 @@ const transactions= [];
           creator: props.jdata.creator,
           price: 10,
           collection_id: parseInt(colID),
-          
         };
         console.log(payload);
         // ext_call(process.env.REACT_APP_CONTRACT_MARKET, 'add_token_to_collection', payload, 300000000000000, 1)
@@ -548,7 +555,7 @@ const transactions= [];
       tokenId: "hardcoded",
     });
   }
- 
+
   const format = (v) => {
     return v < 10 ? "0" + v : v;
   };
@@ -582,7 +589,7 @@ const transactions= [];
   }
   useEffect(() => {
     (async () => {
-      setColName(t("MintNFT.sweetTitle"))
+      setColName(t("MintNFT.sweetTitle"));
       let userData;
       let account = accountId;
       const query = `
@@ -624,22 +631,15 @@ const transactions= [];
         });
     })();
 
+    let urlParams = new URLSearchParams(window.location.search);
+    console.log("🪲 ~ file: mintNft.view.js ~ line 375 ~ urlParams", urlParams);
+    let execTrans = urlParams.has("transactionHashes");
+    console.log("🪲 ~ file: mintNft.view.js ~ line 377 ~ execTrans", execTrans);
+    if (execTrans) {
+      window.location.href = "/congratulation";
+    }
 
-   
-   
-        let urlParams = new URLSearchParams(window.location.search);
-        console.log("🪲 ~ file: mintNft.view.js ~ line 375 ~ urlParams", urlParams)
-        let execTrans = urlParams.has('transactionHashes')
-        console.log("🪲 ~ file: mintNft.view.js ~ line 377 ~ execTrans", execTrans)
-        if (execTrans){
-          window.location.href = "/congratulation"
-        }
-        
-        return;
-        
-      
-
-
+    return;
   }, [props]);
 
   return (
@@ -661,24 +661,29 @@ const transactions= [];
           <>
             <div className="w-full h-full    md:flex  md:flex-row   ">
               {/* Here goes the info nft  */}
-              <div name="create" className="w-full bg-white md:w-2/5 lg:w-4/12 lg:items-center ">
-                <div name="cancel" className="mt-4 px-6   text-white  ">
-                  <Button className=" hover:bg-black  "  onClick={history.goBack} >
+              <div
+                name="create"
+                className="w-full bg-white md:w-2/5 lg:w-4/12 lg:items-center "
+              >
+                <div name="cancel" className="mt-4 px-8   text-white  ">
+                  <Button
+                    className=" hover:bg-black  "
+                    onClick={history.goBack}
+                  >
                     <img className="" alt="back_arrow" src={back_arrow}></img>{" "}
-                    <a className=" px-2 mt-2 text-[#616161]">
+                    <a className=" normal-case px-2 my-4 text-[#616161]">
                       {t("MintNFT.cancel")}{" "}
                     </a>
                   </Button>
                 </div>
-                <div className="w-full h-full pb-6 flex flex-col px-6       ">
+                <div className="w-full h-full pb-6 flex flex-col px-10       ">
                   <div classn="tab flex flex-row drop-shadow-md ">
                     <button onClick={setHide_create_nft}>
-                      <h3 className=" text-black py-2 rounded-md   hover:text-white hover:scale-110 tracking-tighter text-xl 	 font-open-sans font-bold ">
+                      <h3 className=" text-black py-2 rounded-md    hover:scale-110 tracking-tighter text-4xl 	 font-open-sans font-bold ">
                         {" "}
                         {t("MintNFT.createNFT")}
                       </h3>
                     </button>
-                   
                   </div>
 
                   <div name="nft" hidden={hide_create_col}>
@@ -686,34 +691,34 @@ const transactions= [];
                       {t("MintNFT.upImage")}{" "}
                     </p>
 
-                    <div className="overflow-hidden ">
-                      { window.innerWidth <=640 && (
-
-                          mint?.file &&
-                         
-                          <img
-                              className="rounded-md    m-auto  object-cover object-center "
-                              alt="hero"
-                              src={mint?.file}
-                            />
-                       
-                       
-                      )}
+                    <div className="overflow-hidden   ">
+                      {/*mint?.file && (
+                        
+                        <img
+                          className="rounded-md    m-auto  object-cover object-center "
+                          alt="hero"
+                          src={mint?.file}
+                        />
+                      )*/}
                       <label className={` `}>
-                        <div className="flex  ">
+                        <div className="flex w-full  ">
                           {mint?.file ? (
-                             window.innerWidth <=640 ?
-                             <span >
-                              {" "}
+                            <div className="flex flex-col  relative     text-sm h-full dark:bg-[#EBEBEB] dark:text-darkgray   rounded-lg justify-center  text-center   w-full ">
                               
-                            </span>:
-                            <div className="flex flex-col      text-sm h-[150px] dark:bg-[#EBEBEB] dark:text-darkgray   rounded-md justify-center  text-center   w-full ">
-                           <p>{mint?.name}</p>
-                            <span className="text-sm rounded-md	uppercase font-bold border-4 border-black mx-20 lg:text-md py-2">
-                              {" "}
-                              {t("MintNFT.changeImg")}
-                            </span>
-                          </div>
+                              <img
+                          className="w-full h-full rounded-md    m-auto  object-cover object-center "
+                          alt="hero"
+                          src={mint?.file}
+                        />
+                        <div name="text img" className=" w-full flex rounded-lg flex-col  justify-center h-full absolute opacity-0 hover:opacity-80  bg-black ">
+                             <p className="absolute top-1/2 w-full  text-center text-white   -translate-y-1/2  text-xs m-auto">{mint?.name}</p>
+                              <span className="absolute top-1/2  w-full   text-white    -translate-y-1 text-sm rounded-md	uppercase font-bold  m-auto  py-2">
+                                
+                                {t("MintNFT.changeImg")}
+                              </span>
+                        </div>
+                             
+                            </div>
                           ) : (
                             <div className="flex flex-col      text-sm h-[150px] dark:bg-[#EBEBEB] dark:text-darkgray   rounded-md justify-center  text-center   w-full ">
                               <img
@@ -745,8 +750,8 @@ const transactions= [];
                     </div>
 
                     <form onSubmit={formik.handleSubmit} className="   ">
-                      <div className=" ">
-                        <div className=" ">
+                      <div className="fomr">
+                        <div name="title" className="my-4">
                           <div className="flex justify-between ">
                             <label
                               htmlFor="title"
@@ -760,20 +765,18 @@ const transactions= [];
                               </div>
                             ) : null}
                           </div>
-
-                          <div className="">
-                            <input
-                              type="text"
-                              id="title"
-                              name="title"
-                              onBlur={(e) => handle_title(e)}
-                              {...formik.getFieldProps("title")}
-                              className={`font-open-sans mt-1 p-2 border border-[#A4A2A4] h-full dark: dark:text-darkgray   text-left rounded-md justify-center w-full`}
-                              placeholderTextColor="#000"
-                              placeholder={t("MintNFT.write_title")}
-                            />
-                          </div>
-
+                          <input
+                            type="text"
+                            id="title"
+                            name="title"
+                            onBlur={(e) => handle_title(e)}
+                            {...formik.getFieldProps("title")}
+                            className={`font-open-sans mt-1 p-2 border border-[#A4A2A4] h-full dark: dark:text-darkgray   text-left rounded-md justify-center w-full`}
+                            placeholderTextColor="#000"
+                            placeholder={t("MintNFT.write_title")}
+                          />
+                        </div>
+                        <div name="description" className="mb-">
                           <div className="flex mt-2 justify-between ">
                             <label
                               htmlFor="description"
@@ -800,11 +803,9 @@ const transactions= [];
                               className={`font-open-sans p-2 h-full dark:bg-white dark:text-darkgray rounded-md   text-left justify-center  w-full`}
                             />
                           </div>
+                        </div>
 
-                         
-
-
-
+                        <div name=" " className="my-2">
                           <div className="flex justify-between ">
                             <label
                               htmlFor="royalties"
@@ -814,25 +815,24 @@ const transactions= [];
                             </label>
 
                             <label class="inline-flex relative items-center mr-5 cursor-pointer">
-                                      <input
-                                          type="checkbox"
-                                          className="sr-only peer"
-                                          checked={hide_create_roy}
-                                          readOnly
-                                      />
-                                      <div
-                                          onClick={() => {
-                                            removeallFields();  
-                                            setHide_create_roy(!hide_create_roy)
-                                          }}
-                                          className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#F79336]"
-                                      ></div>
-                                     
-                                  </label>
+                              <input
+                                type="checkbox"
+                                className="sr-only peer"
+                                checked={hide_create_roy}
+                                readOnly
+                              />
+                              <div
+                                onClick={() => {
+                                  removeallFields();
+                                  setHide_create_roy(!hide_create_roy);
+                                }}
+                                className="w-11 h-6 bg-gray-200 rounded-full peer  peer-focus:ring-green-300  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#F79336]"
+                              ></div>
+                            </label>
                           </div>
 
-                          <div >
-                            <div >
+                          <div>
+                            <div>
                               {formFields.map((form, index) => {
                                 return (
                                   <div
@@ -885,9 +885,13 @@ const transactions= [];
                               })}
                             </div>
 
-                            <div  className={ !hide_create_roy ? "hidden" : "relative group mt-4 rounded-md"}>
-
-                              
+                            <div
+                              className={
+                                !hide_create_roy
+                                  ? "hidden"
+                                  : "relative group mt-4 rounded-md"
+                              }
+                            >
                               {/* <div className="absolute -inset-0.5 bg-[#5aee8c]  rounded-md   opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div> */}
                               <button
                                 type="button"
@@ -977,253 +981,79 @@ const transactions= [];
                       </div>
                     </form>
                   </div>
-                  <div name="col" hidden={true}>
-                    <p className="mt-8 text-base text-[#0A0A0A] font-open-sans font-bold  ">
-                      {t("MintNFT.upImage")}{" "}
-                    </p>
-                    <p className=" text-[13px] text-[#616161] font-open-sans font-normal  ">
-                      {t("MintNFT.drag&drop")}{" "}
-                    </p>
-
-                    {mint?.file ? (
-                      <div className="flex flex-col   text-sm h-[45px] dark:bg-white dark:text-darkgray   rounded-md justify-center  text-center   w-full font-semibold font-open-sans">
-                        {t("MintNFT.changeImg")}
-                      </div>
-                    ) : (
-                      <div className="flex flex-col text-sm h-[170px] lg:h-[300px]  dark:bg-[#EBEBEB] dark:text-darkgray   rounded-md justify-center   text-center   w-full font-semibold font-raleway">
-                        <img
-                          src={upfile}
-                          className="h-[30px] lg:h-[250px]  object-contain"
-                        ></img>
-                        <span className="text-sm pt-12">
-                          {t("MintNFT.file_type")}
-                        </span>
-                      </div>
-                    )}
-                    
-                    <form onSubmit={formik.handleSubmit} className="   ">
-                
-                      <div className=" ">
-                        <div className=" ">
-                          <div className="flex justify-between ">
-                            <label
-                              htmlFor="title"
-                              className="   dark:text-darkgray mt-2 text-base text-[#0A0A0A] font-open-sans font-bold"
-                            >
-                              {t("MintNFT.titleTxt")}
-                            </label>
-                            {formik.touched.title && formik.errors.title ? (
-                              <div className=" text-sm text-red-600 font-open-sans">
-                                {formik.errors.title}
-                              </div>
-                            ) : null}
-                          </div>
-
-                          <div className="">
-                            <input
-                              type="text"
-                              id="title"
-                              name="title"
-                              {...formik.getFieldProps("title")}
-                              className={`font-open-sans mt-1 p-2 border border-[#A4A2A4] h-full dark: dark:text-darkgray   text-left rounded-md justify-center w-full`}
-                              placeholderTextColor="#000"
-                              placeholder={t("MintNFT.write_title")}
-                            />
-                          </div>
-
-                          <div className="flex mt-2 justify-between ">
-                            <label
-                              htmlFor="description"
-                              className="  dark:text-darkgray  text-base text-[#0A0A0A] font-open-sans font-bold "
-                            >
-                              {t("MintNFT.descTxt")}
-                            </label>
-                            {formik.touched.description &&
-                            formik.errors.description ? (
-                              <div className="leading-7 text-sm text-red-600 font-open-sans">
-                                {formik.errors.description}
-                              </div>
-                            ) : null}
-                          </div>
-
-                          <div className="  font-open-sans  p-2 border border-[#A4A2A4]   dark: dark:text-darkgray   text-left rounded-md  justify-center  w-full h-[130px] mx-0     mb-2 ">
-                            <textarea
-                              type="textarea"
-                              id="description"
-                              name="description"
-                              placeholder={t("MintNFT.maxTitle2")}
-                              rows="5"
-                              {...formik.getFieldProps("description")}
-                              className={`font-open-sans flex flex-col  h-full dark:bg-white dark:text-darkgray   text-left rounded-xlarge justify-center focus-visible:outline-none focus-visible:shadow-brown-s w-full`}
-                            />
-                          </div>
-
-                          <div></div>
-
-                          <div className="flex justify-between ">
-                            <label
-                              htmlFor="royalties"
-                              className="leading-7 text-sm  dark:text-darkgray   uppercase font-semibold font-raleway"
-                            >
-                              {t("MintNFT.lblRoyalties") }
-                            </label>
-                            
-                           
-                          </div>
-
-                          <div>
-                            <div>
-                              {formFields.map((form, index) => {
-                                return (
-                                  <div
-                                    key={index}
-                                    className="w-full flex my-2 gap-2 "
-                                  >
-                                    <div className="flex  rounded-md  w-6/12         ">
-                                      <input
-                                        name="account"
-                                        placeholder={t("MintNFT.placeAccount")}
-                                        className="font-open-sans  p-2 h-full dark:bg-white dark:text-darkgray border border-[#A4A2A4] text-left rounded-md justify-center     w-full"
-                                        onChange={(event) =>
-                                          handleFormChange(event, index)
-                                        }
-                                        value={form.name}
-                                      />
-                                    </div>
-
-                                    <div className="   rounded-md  w-4/12         border border-[#A4A2A4]   ">
-                                      <input
-                                        type="number"
-                                        min="0.1"
-                                        step="0.1"
-                                        name="percent"
-                                        placeholder={t("MintNFT.placePercent")}
-                                        className="font-open-sans  p-2  h-full dark:bg-white dark:text-darkgray     rounded-md justify-center  w-full "
-                                        onChange={(event) =>
-                                          handleFormChange(event, index)
-                                        }
-                                        value={form.age}
-                                      />
-                                    </div>
-                                    <button
-                                      type="button"
-                                      onClick={() => removeFields(index)}
-                                      className="w-2/12 rounded-md  content-fit font-bold dark:text-white  bg-red-600 border-0    text-sm uppercase font-open-sans"
-                                    >
-                                      <svg
-                                        fill="#000"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        viewBox="0 0 24 24"
-                                        width="20px"
-                                        height="24px"
-                                      >
-                                        <path d="M 10 2 L 9 3 L 4 3 L 4 5 L 5 5 L 5 20 C 5 20.522222 5.1913289 21.05461 5.5683594 21.431641 C 5.9453899 21.808671 6.4777778 22 7 22 L 17 22 C 17.522222 22 18.05461 21.808671 18.431641 21.431641 C 18.808671 21.05461 19 20.522222 19 20 L 19 5 L 20 5 L 20 3 L 15 3 L 14 2 L 10 2 z M 7 5 L 17 5 L 17 20 L 7 20 L 7 5 z M 9 7 L 9 18 L 11 18 L 11 7 L 9 7 z M 13 7 L 13 18 L 15 18 L 15 7 L 13 7 z" />
-                                      </svg>
-                                    </button>
-                                  </div>
-                                );
-                              })}
-                            </div>
-                            <div className="relative group mt-4 rounded-md"> 
-                            
-                              {/* <div className="absolute -inset-0.5 bg-[#5aee8c]  rounded-md   opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div> */}
-                              <button
-                                type="button"
-                                onClick={addFields}
-                                className="relative w-full  rounded-md dark:text-white font-bold bg-lime-600 py-2 text-base uppercase font-open-sans"
-                              >
-                                {t("MintNFT.btnRoyalties")}
-                              </button>
-                            </div>
-                          </div>
-
-                          <div className="relative group  mt-10 rounded-md">
-                            {/* <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f2b159] to-[#ca7e16] rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div> */}
-                            <button
-                              type="submit"
-                              className={`relative w-full bg-yellow2 rounded-md uppercase font-open-sans text-base px-6 py-2 font-bold border-2 border-yellow2 dark:text-white`}
-                              disabled={mint?.onSubmitDisabled}
-                            >
-                              {t("MintNFT.createNFT")}
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
+                  
                 </div>
               </div>
-              {
-                window.innerWidth >=640  ? 
+              {window.innerWidth >= 640 ? (
                 <div
-                name="nft_detail"
-                
-                className={ "  px-4 md:px-8  py-8  md:py-20  lg:mx-auto  w-full md:w-5/6  lg:w-2/5  drop-shadow-md       md:flex-row flex-col  md:justify-center    "    }          >
-                <div
-                  name="card"
+                  name="nft_detail"
                   className={
-                    hide_create_col
-                      ? " sm:hidden "
-                      : "" +
-                        "rounded-md flex flex-col    h-full "
+                    "  px-4 md:px-8  py-8  md:py-20  lg:mx-auto  w-full md:w-3/5  lg:w-3/6 xl:w-5/12  2xl:1/2 drop-shadow-2xl       md:flex-row flex-col  md:justify-center    "
                   }
-                > {//h-7/12
-                }
-
-                  <div className="w-full  h-[280px]   md:h-[340px] lg:h-[350px]   overflow-hidden rounded-t-md   bg-[#EBEBEB]">
-                    {mint?.file ? (
-                      <img
-                        className=" w-full h-full  object-cover object-center "
-                        alt="hero"
-                        src={mint?.file}
-                      />
-                    ) : (
-                      <p className=" w-full   text-center">
-                        {t("MintNFT.prevNFT")}
-                      </p>
-                    )}
-                  </div>
+                >
+                  <p className=" w-full  text-base font-bold  text-left my-4">
+                    {t("MintNFT.prevNFT")}
+                  </p>
                   <div
-                    name="card_det"
-                    className="w-full rounded-b-md   pt-4 px-4    bg-white h-full md:h-[170px]"
+                    name="card"
+                    className={
+                      hide_create_col
+                        ? " sm:hidden "
+                        : "" + "rounded-2xl flex flex-col    h-full "
+                    }
                   >
-                   
-                      <p className=" text-black text-2xl text-ellipsis   md:text-3xl  font-bold font-open-sans">
-                         
-                        {formik.values.title ? formik.values.title :   t("MintNFT.write_title") }
+                    {" "}
+                    {
+                      //h-7/12
+                    }
+                    <div className="w-full   h-[280px]   md:h-[340px] lg:h-[350px]  xl:h-[450px]  overflow-hidden rounded-t-2xl   bg-[#EBEBEB]">
+                      {mint?.file && (
+                        <img
+                          className=" w-full h-full  object-cover object-center "
+                          alt="hero"
+                          src={mint?.file}
+                        />
+                      )}
+                    </div>
+                    <div
+                      name="card_det"
+                      className="w-full rounded-b-2xl   pt-4 px-4    bg-white h-full md:h-[170px]"
+                    >
+                      <p className=" text-black uppercase text-2xl truncate   md:text-3xl  font-bold font-open-sans">
+                        {formik.values.title
+                          ? formik.values.title
+                          : t("MintNFT.write_title")}
                       </p>
-                      {/* {noCollections && (
-                        <p className=" text-black text-xl  md:text-2xl font-open-sans tracking-wide	mt-2 ">
-                          { colID===-1 ? t("addToken.comboOpc") : (collectionData.find( ({ id }) => id === colID) )?.title }
-                         
+                      <p className=" text-black capitalize text-md truncate   md:text-lg   font-open-sans">
+                        {formik.values.description
+                          ? formik.values.description
+                          : t("MintNFT.descTxt")}
+                      </p>
+
+                      <div className="py-2 flex">
+                        <img
+                          className=" mt-1 w-5 h-5   "
+                          alt="near"
+                          src={nearicon}
+                        />
+
+                        <p className="text-[#F79336] ml-4  font-bold font-open-sans uppercase  text-lg ">
+                          {" "}
+                          {t("MintNFT.PendingPrice")}
                         </p>
-                      )} */}
-
-                      <div className="py-4 flex">
-                      <img
-                        className=" mt-1 w-5 h-5   "
-                        alt="near"
-                        src={nearicon}
-                     / >
-                       
-
-                    
-                      <p className="text-[#F79336] ml-4  font-bold font-open-sans uppercase  text-lg "> {t("MintNFT.PendingPrice") }</p>
-
                       </div>
-                      
-                    <p className="text-black content-en mt-4 mb-2 font-open-sans text-sm md:text-md leading-5">
-                          {t("tokCollection.createdBy") +":"+window.localStorage.getItem("logged_account")}{" "}
+
+                      <p className="text-black content-en mt-4 mb-2 font-open-sans text-sm md:text-md leading-5">
+                        {t("tokCollection.createdBy") +
+                          ":" +
+                          window.localStorage.getItem("logged_account")}{" "}
                       </p>
-                   
+                    </div>
                   </div>
                 </div>
-
-              </div>
-              :
-              <></>
-              }
-              
+              ) : (
+                <></>
+              )}
             </div>
           </>
         </>

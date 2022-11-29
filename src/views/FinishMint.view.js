@@ -260,6 +260,9 @@ function LightHeroE(props) {
       });
 
      
+
+
+      
       return;
     })();
   }, [props]);
@@ -274,7 +277,30 @@ function LightHeroE(props) {
     //validate form
     let contract = await getNearContract();
     let amount = fromNearToYocto(0.01);
-    if (hide_set_price && new_token_price > 0) {
+    
+    if( new_token_price <= 0) {
+      Swal.fire({
+        position: "top-center",
+        icon: "warning",
+        title: t("MintNFT.alertPrice"),
+        showConfirmButton: false,
+        timer: 2000,
+      });
+      return;
+     
+    }
+    if( colID< 0) {
+      Swal.fire({
+      position: "top-center",
+      icon: "warning",
+      title: t("MintNFT.alertCol"),
+      showConfirmButton: false,
+      timer: 2000,
+    });
+    return;
+     
+    }
+    if (  new_token_price > 0) {
   
       let price = fromNearToYocto(new_token_price);
       let msgData = JSON.stringify({
@@ -307,20 +333,7 @@ function LightHeroE(props) {
         walletCallbackUrl: "/mynfts".toString(),
       });
     } 
-    if(hide_set_price && new_token_price <= 0) {
-      Swal.fire({
-        position: "top-center",
-        icon: "warning",
-        title: t("MintNFT.alertPrice"),
-        showConfirmButton: false,
-        timer: 2000,
-      });
-
-
-     
-    }
-
-    if (hide_set_col &&  colID>= 0) {
+    if ( colID>= 0) {
       
       let Col_payload = {
         contract_id: process.env.REACT_APP_CONTRACT,
@@ -337,7 +350,7 @@ function LightHeroE(props) {
           {
             type: "FunctionCall",
             params: {
-              methodName: "add_token_to_collection_xcc",
+              methodName: "add_token_to_collection",
               args: Col_payload,
               gas: 300000000000000,
               deposit: 0,
@@ -346,21 +359,13 @@ function LightHeroE(props) {
         ],
       });
     } 
-    if(hide_set_col && colID< 0) {Swal.fire({
-      position: "top-center",
-      icon: "warning",
-      title: t("MintNFT.alertCol"),
-      showConfirmButton: false,
-      timer: 2000,
-    });
-    return;
-     
-    }
+   
     console.log(
       "🪲 ~ file: FinishMint.view.js ~ line 323 ~ SetPrice ~ transactions",
       transactions
     );
    
+
     //we're simulating that the transaction is donde
     window.localStorage.setItem("last_token", LToken?.token_id);
     window.localStorage.setItem("price_setted", true);
@@ -438,24 +443,17 @@ function LightHeroE(props) {
               {/* Here goes the info nft  */}
               <div
                 name="create"
-                className="w-full bg-white md:w-2/5 lg:w-5/12 lg:items-center "
+                className="w-full  bg-white md:w-2/5 lg:w-5/12 lg:items-center "
               >
-                <div name="cancel" className="mt-4 px-6   text-white  ">
-                  <Button className="   " onClick={history.goBack}>
-                    <img className="" alt="back_arrow" src={back_arrow}></img>{" "}
-                    <a className=" lg:text-lg   xl:text-xl 2xl:text-2xl  px-2 mt-2 text-[#616161]">
-                      {t("MintNFT.cancel")}{" "}
-                    </a>
-                  </Button>
-                </div>
-                <div className="w-full h-full pb-6 flex flex-col px-6       ">
-                  <div className="tab flex flex-row drop-shadow-md ">
-                    <button onClick={setHide_create_nft}>
-                      <h3 className=" text-black py-2 rounded-md  hover:text-white hover:scale-110 tracking-tighter text-lg 	lg:text-xl   xl:text-2xl     font-open-sans font-bold ">
+                
+                <div className="w-full h-full pb-6 flex flex-col px-10     ">
+                  <div className="tab  pt-16 flex flex-row drop-shadow-md ">
+                     
+                      <h3 className=" text-black  rounded-md  hover:text-white hover:scale-110 tracking-tighter text-4xl      font-open-sans font-bold ">
                         {" "}
                         {t("MintNFT.congrats")}
                       </h3>
-                    </button>
+                    
                   </div>
 
                  
@@ -476,7 +474,7 @@ function LightHeroE(props) {
                     <div className="w-full flex flex-col gap-2">
                       {!hide_set_price ? (
                         <button
-                          className={`w-full relative px-4 py-2 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg  xl:text-xl   font-bold `}
+                          className={`w-full relative px-4 py-2 my-4 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg  xl:text-xl   font-bold `}
                           onClick={(e) => {
                             show_modal();
                             setHide_set_modal(!hide_set_modal)
@@ -528,7 +526,7 @@ function LightHeroE(props) {
                       <button
                         type="submit"
                         onClick={SkipPrice}
-                        className={`w-full relative rounded-md px-4 py-2 text-white bg-[#A4A2A4] text-center hover:scale-105  tracking-tighter  font-open-sans text-xs  lg:text-lg xl:text-xl   font-bold `}
+                        className={`w-full relative rounded-md px-4 py-2 my-4 text-white bg-[#A4A2A4] text-center hover:scale-105  tracking-tighter  font-open-sans text-xs  lg:text-lg xl:text-xl   font-bold `}
                       >
                         {t("MintNFT.Skip")}
                       </button>
@@ -552,9 +550,9 @@ function LightHeroE(props) {
                     )}
 
                     <div className="w-full flex flex-col gap-2">
-                      {!hide_set_price ? (
+                      {/* {!hide_set_price ? (
                         <button
-                          className={`w-full relative px-4 py-2 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg  xl:text-xl   font-bold `}
+                          className={`w-full relative px-4 py-2 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-sm lg:text-lg  xl:text-xl   font-bold `}
                           onClick={(e) => {
                             setHide_set_save(true);
                             setHide_set_price(!hide_set_price);
@@ -562,9 +560,14 @@ function LightHeroE(props) {
                         >
                           {t("Modal.putSale")}
                         </button>
-                      ) : (
+                      ) : ( */}
                         <>
+                        <p className="my-4  text-base lg:text-lg xl:text-xl   text-[#0A0A0A] font-open-sans font-bold  ">
+                        {t("Modal.price")}
+                      </p>
                           <div className="w-full flex gap-2">
+                         
+
                             <div className="w-[40px] h-[40px] 2xl:w-[55px] 2xl:h-[55px] bg-center  border-2 rounded-full    justify-center items-center">
                               <img
                                 className=" mt-2 m-auto  w-5 h-5 2xl:w-10 2xl:h-10  "
@@ -595,29 +598,30 @@ function LightHeroE(props) {
                               </label>
                             </div>
                           </div>
+                          <hr className="border-t-2 border-yellow2 py-2	"></hr>
                         </>
-                      )}
+                      {/* )} */}
 
-                      {!hide_set_col ? (
+                      {/* {!hide_set_col ? (
                         <>
                           <button
-                            className={`w-full relative px-4 py-2 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg  xl:text-xl   font-bold `}
+                            className={`w-full relative px-4 py-2 bg-yellow2  rounded-md  text-white   text-center hover:scale-105 tracking-tighter  font-open-sans text-sm lg:text-lg  xl:text-xl   font-bold `}
                             onClick={(e) => {
                               setHide_set_save(true);
 
                               setHide_set_col(!hide_set_col);
                             }}
                           >
-                            Añadir a colleccion{/* //{t("MintNFT.SetPrice")} */}
+                            Añadir a colleccion
                           </button>
                         </>
-                      ) : (
+                      ) : ( */}
                         <>
                           <div name="collections " className="my-4">
                             <div className="flex justify-between ">
                               <label
                                 htmlFor="collections"
-                                className=" text-sm  dark:text-darkgray    font-semibold font-raleway"
+                                className=" text-base  dark:text-darkgray    font-semibold font-raleway"
                               >
                                 {t("addToken.addtocol")}
                               </label>
@@ -687,11 +691,11 @@ function LightHeroE(props) {
                             )}
                           </div>
                         </>
-                      )}
+                      {/* )} */}
 
                       {/*  btn save*/}
 
-                      {hide_set_save && (
+                      {/* {hide_set_save && ( */}
                         <>
                           <div className="mt-3">
                             <input
@@ -702,11 +706,14 @@ function LightHeroE(props) {
                               value={terms}
                               onChange={AcceptTerms}
                             />{" "}
-                            <label className="text-sm lg:text-lg xl:text-2xl   text-darkgray">
-                              <a className="hover:underline hover:text-blue">
-                                {t("Modal.accept")}
-                              </a>
-                            </label>
+                            <label className="text-sm  text-darkgray">
+                        <a className="hover:underline hover:text-blue" 
+                        href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones" target="_blank" rel="noopener noreferrer">
+                          {t("Modal.accept")}
+                        </a>
+
+                    
+                      </label>
                           </div>
 
                           <button
@@ -724,7 +731,7 @@ function LightHeroE(props) {
                             {t("MintNFT.Savecongrats")}
                           </button>
                         </>
-                      )}
+                      {/* )} */}
                       <button
                         type="submit"
                         onClick={SkipPrice}
@@ -741,18 +748,18 @@ function LightHeroE(props) {
               <div
                 name="nft_detail"
                 className={
-                  "  px-4 md:px-8  mx-auto   mt-4 md:mt-16    w-full h-full    md:w-3/5  xl:w-3/6	       drop-shadow-md       md:flex-row flex-col  md:justify-center xl:justify-center    "
+                  "  px-4 md:px-8  mx-auto   mt-4 md:mt-16    w-full h-full    md:w-3/5  xl:w-3/6	       drop-shadow-xl       md:flex-row flex-col  md:justify-center xl:justify-center    "
                 }
               >
                 <div
                   name="card"
-                  className="rounded-md flex flex-col    h-full "
+                  className=" flex flex-col    h-full "
                 >
                   {
                     //h-7/12
                     //     md:h-screen lg:h-screen  xl:h-screen
                   }
-                  <div className="w-full h-[280px] md:h-2/5 lg:h-3/5  xl:h-3/5   overflow-hidden rounded-t-md   bg-[#EBEBEB]">
+                  <div className="w-full h-[280px] md:h-2/5 lg:h-3/5  xl:h-3/5   overflow-hidden rounded-t-lg   bg-[#EBEBEB]">
                     <img
                       className="w-full h-full object-cover object-center "
                       alt="hero"
@@ -761,7 +768,7 @@ function LightHeroE(props) {
                   </div>
                   <div
                     name="card_det"
-                    className="w-full xl:h-3/12    rounded-b-md   pt-4 px-4    bg-white  "
+                    className="w-full xl:h-3/12    rounded-b-xl   pt-4 px-4  mb-4   bg-white  "
                   >
                     <p className=" text-black  text-2xl text-ellipsis    md:text-xl  lg:text-2xl  xl:text-3xl  font-bold font-open-sans">
                       {LToken?.metadata

@@ -57,31 +57,52 @@ export default function Set_token_detailModal(props) {
     //validate form
     let contract = await getNearContract();
     let amount = fromNearToYocto(0.01);
-    if(!hide_set_price_m && !hide_create_col_m){
-      console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_col_m", hide_set_col_m)
-      console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_price_m", hide_set_price_m)
+    // if(!hide_set_price_m && !hide_create_col_m){
+    //   console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_col_m", hide_set_col_m)
+    //   console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 61 ~ constSetPrice_modal= ~ hide_set_price_m", hide_set_price_m)
       
+    //   Swal.fire({
+    //     position: "top-center",
+    //     icon: "warning",
+    //     title: t("MintNFT.alertoptions"),
+    //     showConfirmButton: false,
+    //     timer: 2000,
+    //   });
+    //   return;
+    // }
+
+
+    if ( new_token_price_m <= 0) {
       Swal.fire({
         position: "top-center",
         icon: "warning",
-        title: t("MintNFT.alertoptions"),
+        title: t("MintNFT.alertPrice"),
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+    if ( colID_m < 0) {
+      Swal.fire({
+        position: "top-center",
+        icon: "warning",
+        title: t("MintNFT.alertCol"),
         showConfirmButton: false,
         timer: 2000,
       });
       return;
     }
-    if (hide_set_price_m && new_token_price_m > 0) {
+    if ( new_token_price_m > 0) {
       let price = fromNearToYocto(new_token_price_m);
       let msgData = JSON.stringify({
         market_type: "on_sale",
         price: price,
-        title: LToken_m?.metadata?.title,
-        media: LToken_m?.metadata?.media,
-        creator_id: LToken_m?.creator,
-        description: LToken_m?.metadata?.description,
+        title: props.token?.metadata?.title,
+        media: props.token?.metadata?.media,
+        creator_id: props.token?.creator,
+        description:props.token?.metadata?.description,
       });
       let payload_price = {
-        token_id: LToken_m?.token_id,
+        token_id: props.token?.token_id,
         account_id: process.env.REACT_APP_CONTRACT_MARKET,
         msg: msgData,
       };
@@ -102,23 +123,15 @@ export default function Set_token_detailModal(props) {
         walletCallbackUrl: "/mynfts".toString(),
       });
     }
-    if (hide_set_price_m && new_token_price_m <= 0) {
-      Swal.fire({
-        position: "top-center",
-        icon: "warning",
-        title: t("MintNFT.alertPrice"),
-        showConfirmButton: false,
-        timer: 2000,
-      });
-    }
+   
 
-    if (hide_create_col_m && colID_m >= 0) {
+    if ( colID_m >= 0) {
       let Col_payload = {
         contract_id: process.env.REACT_APP_CONTRACT,
-        title: LToken_m?.metadata?.title,
-        description: LToken_m?.metadata?.description,
-        media: LToken_m?.metadata?.media,
-        collection_id: colID_m,
+        title: props.token?.metadata?.title,
+        description: props.token?.metadata?.description,
+        media: props.token?.metadata?.media,
+        collection_id: parseInt(colID_m),
       };
 
       transactions.push({
@@ -128,7 +141,7 @@ export default function Set_token_detailModal(props) {
           {
             type: "FunctionCall",
             params: {
-              methodName: "add_token_to_collection_xcc",
+              methodName: "add_token_to_collection",
               args: Col_payload,
               gas: 300000000000000,
               deposit: 0,
@@ -137,16 +150,7 @@ export default function Set_token_detailModal(props) {
         ],
       });
     }
-    if (hide_create_col_m && colID_m < 0) {
-      Swal.fire({
-        position: "top-center",
-        icon: "warning",
-        title: t("MintNFT.alertCol"),
-        showConfirmButton: false,
-        timer: 2000,
-      });
-      return;
-    }
+ 
     console.log(
       "🪲 ~ file: FinishMint.view.js ~ line 323 ~ SetPrice ~ transactions",
       transactions
@@ -155,7 +159,7 @@ export default function Set_token_detailModal(props) {
     //we're simulating that the transaction is donde
     window.localStorage.setItem("last_token", LToken_m?.token_id);
     window.localStorage.setItem("price_setted", true);
-    return;
+    
     const wallet = await selector.wallet();
 
     return wallet.signAndSendTransactions({ transactions }).catch((err) => {
@@ -224,7 +228,10 @@ export default function Set_token_detailModal(props) {
         .catch((err) => {
           console.log("error: ", err);
         });
+
+        
       // if (props.show) {
+      console.log("🪲 ~ file: Set_token_detailsModal.component.js ~ line 234 ~ props", props)
       //   console.log(props)
       //   let userData
       //   let account = accountId
@@ -374,7 +381,8 @@ export default function Set_token_detailModal(props) {
   // });
 
   return (
-    props.show && (
+    props.show
+     && (
       <>
      
         <div className="  ">
@@ -383,14 +391,14 @@ export default function Set_token_detailModal(props) {
 
        <div className=" justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
 
-        <div className="w-4/6  items-center  bg-white shadow-lg p-8 flex   outline-none focus:outline-none rounded-xlarge">
+        <div className="w-4/6  items-center  bg-white shadow-lg gap-4  p-4 flex   outline-none focus:outline-none rounded-xlarge">
             {/*header*/}
 
             
              
 
-<div name="nft" className="rounded-md w-1/2  px-2 flex flex-col   ">
-              <div className="w-full  h-[250px] xl:h-[350px]  2xl:h-[650px] overflow-hidden rounded-t-md   bg-[#EBEBEB]">
+<div name="nft" className="rounded-lg w-1/2  m-2  flex flex-col drop-shadow-2xl    ">
+              <div className="w-full  h-[200px] xl:h-[350px]  2xl:h-[650px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
                 <img
                   className="w-full h-full object-cover object-center "
                   alt="hero"
@@ -399,9 +407,9 @@ export default function Set_token_detailModal(props) {
               </div>
               <div
                 name="nft_det"
-                className="w-full h-1/5    rounded-b-md   pt-1 px-1  bg-white   shadow-lg"
+                className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
               >
-                <p className=" ml-2 text-black  text-md xl:text-xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
+                <p className=" ml-2 text-black capitalize text-md xl:text-xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
                   {props.token?.metadata?.title}
                 </p>
 
@@ -415,7 +423,7 @@ export default function Set_token_detailModal(props) {
 
                 <div className="ml-2 flex">
                   <img
-                    className=" mt-1 w-3 h-3  2xl:w-6 2xl:h-6  "
+                    className=" mt-1 w-5 h-5  2xl:w-6 2xl:h-6  "
                     alt="near"
                     src={props.nearicon}
                   />
@@ -446,20 +454,20 @@ export default function Set_token_detailModal(props) {
                   <div className="w-full flex justify-between">
                     <label
                       htmlFor="price"
-                      className=" text-sm  xl:text-lg  2xl:text-5xl dark:text-darkgray    font-semibold font-raleway"
+                      className=" text-sm  xl:text-2xl  2xl:text-5xl dark:text-darkgray    font-semibold font-raleway"
                     >
                       {t("Modal.price")}
                     </label>
-                    <Switch  
+                    {/* <Switch  
                       onChange={(e) => {
                         setNew_token_price_m(0);
                         setHide_set_price_m(!hide_set_price_m);
                       }}
                       checked={hide_set_price_m}
-                    />
+                    /> */}
                   </div>
 
-                  {hide_set_price_m && (
+                  {true && ( 
                     <div className="w-full flex gap-2">
                       <div className="w-[40px] h-[40px]  bg-center  border-2 rounded-full    justify-center items-center">
                         <img
@@ -483,33 +491,38 @@ export default function Set_token_detailModal(props) {
                         />
 
                         <label className="w-2/6 py-2 text-xs items-center xl:text-lg 2xl:text-3xl ">
+                          {}
                           ≈{" "}
                           {(new_token_price_m * props.nearprice)
                             .toString()
-                            .substring(0, 6)}{" "}
+                            .substring(0, 6)}{}
                           USD
+                        
                         </label>
                       </div>
                     </div>
                   )}
                 </>
-
+                <hr className="border-t-2 border-yellow2 py-2	"></hr>
                 <div className="w-full flex justify-between">
                   <label
                     htmlFor="collections"
-                    className=" text-sm  xl:text-lg 2xl:text-3xl dark:text-darkgray    font-semibold font-raleway"
+                    className=" text-sm  xl:text-2xl  2xl:text-3xl dark:text-darkgray    font-semibold font-raleway"
                   >
                     {t("addToken.addtocol")}
                   </label>
-                  <Switch
+                  {/* <Switch
                     onChange={(e) => {
                       setColID_m(-1);
                       setHide_create_col_m(!hide_create_col_m);
                     }}
                     checked={hide_create_col_m}
-                  />
+                  /> */}
+                                        
+
                 </div>
-                {hide_create_col_m && (
+              
+                {true && (
                   <>
                     <div name="collections " >
                       <div className="flex justify-between "></div>
@@ -584,7 +597,7 @@ export default function Set_token_detailModal(props) {
                         value={terms_m}
                         onChange={AcceptTerms}
                       />{" "}
-                      <label className="text-sm lg:text-lg xl:text-2xl 2xl:text-3xl  text-darkgray">
+                      <label className="text-xs lg:text-sm xl:text-sm 2xl:text-xl  text-darkgray">
                         <a className="hover:underline hover:text-blue" 
                         href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones" target="_blank" rel="noopener noreferrer">
                           {t("Modal.accept")}
@@ -600,7 +613,7 @@ export default function Set_token_detailModal(props) {
                       className={
                         !terms_m
                           ? "w-full  relative rounded-md px-4 py-2 bg-[#A4A2A4]  text-white    text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl 2xl:text-5xl  font-bold "
-                          : "w-full   relative rounded-md px-4 py-2 bg-green-600   text-white  text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-5xl font-bold "
+                          : "w-full   relative rounded-md px-4 py-2 bg-white hover:bg-green-600  text-green-600  hover:text-white border-2 border-green-600 text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-5xl font-bold "
                       }
                       onClick={(e) => {
                         SetPrice_modal();
@@ -610,13 +623,13 @@ export default function Set_token_detailModal(props) {
                     </button>
                   </>
                 )}
-                <button
+                {/* <button
                   type="submit"
                   onClick={SkipPrice}
                   className={`w-full relative rounded-md px-4 py-2 text-white bg-[#A4A2A4] text-center hover:scale-105  tracking-tighter  font-open-sans text-xs  lg:text-lg xl:text-xl  2xl:text-5xl font-bold `}
                 >
                   {t("MintNFT.Skip")}
-                </button>
+                </button> */}
               </div>
             </div>
             </div>

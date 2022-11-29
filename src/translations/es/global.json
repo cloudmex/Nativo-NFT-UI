@@ -311,7 +311,7 @@
         "btnRemove" : "Quitar",
         "btnRoyalties" : "Añadir regalias",
         "new" : "Nuevo NFT",
-        "congrats" : "Felicidades!",
+        "congrats" : "¡Felicidades!",
         "congratsYourNft" : "  Tu NFT ha sido mintado",
       
 
@@ -329,7 +329,7 @@
         "transAlert3Txt-2" : " Revisa muy bien la cuenta si es erronea o no existe no hay manera de recuperar tu NFT",
         "transAlert3Btn" : "Transferir",
         "account" : "Cuenta",
-        "price" : "Precio",
+        "price" : "1- Precio",
         "setHighestprice" : "Error en el precio",
         "setHighestpriceTxt" : "El Precio debe ser mayor que 0",
         "changePrice" : "Cambiar precio",
@@ -374,7 +374,7 @@
         "btnAdd" : "Agregar NFT",
         "btnCol" : "Crear colección",
         "msgNoCol" : "Aun no has creado una coleccion, primero crea una coleccion para agregar tu NFT",
-        "addtocol":"Añadir a colección"
+        "addtocol":"2- Añadir a colección"
     },
     "searchNftById" : {
         "contract" : "Contrato",
