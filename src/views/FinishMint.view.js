@@ -335,13 +335,19 @@ function LightHeroE(props) {
     } 
     if ( colID>= 0) {
       
+      
+
       let Col_payload = {
         contract_id: process.env.REACT_APP_CONTRACT,
+        owner_id: LToken?.owner_id,
+        token_id: LToken?.token_id,
         title: LToken?.metadata?.title,
         description: LToken?.metadata?.description,
         media: LToken?.metadata?.media,
-        collection_id: colID,
-      };
+        creator: LToken?.creator_id,
+        price: 10,
+        collection_id: parseInt(colID)
+      }
 
       transactions.push({
         signerId: accountId,
@@ -353,7 +359,7 @@ function LightHeroE(props) {
               methodName: "add_token_to_collection",
               args: Col_payload,
               gas: 300000000000000,
-              deposit: 0,
+              deposit: 1,
             },
           },
         ],

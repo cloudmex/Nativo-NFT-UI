@@ -9,6 +9,8 @@ import { acceptedFormats, currencys } from "../utils/constraint";
 import back_arrow from "../assets/img/Back_arrow.png";
 import upfile from "../assets/img/upfile.png";
 import nearicon from "../assets/img/Vectornear.png";
+import loading from "../assets/img/loading.gif";
+
 import { useHistory } from "react-router";
 
 import {
@@ -711,26 +713,32 @@ function LightHeroE(props) {
                           src={mint?.file}
                         />
                         <div name="text img" className=" w-full flex rounded-lg flex-col  justify-center h-full absolute opacity-0 hover:opacity-80  bg-black ">
-                             <p className="absolute top-1/2 w-full  text-center text-white   -translate-y-1/2  text-xs m-auto">{mint?.name}</p>
-                              <span className="absolute top-1/2  w-full   text-white    -translate-y-1 text-sm rounded-md	uppercase font-bold  m-auto  py-2">
+                             <p className="absolute top-1/2 w-full  text-center text-white   -translate-y-1/2  text-md truncate m-auto">{mint?.name}</p>
+                              <span className="absolute top-1/2  w-full   text-white  border border-white  -translate-y-1 text-sm rounded-md	uppercase font-bold  m-auto  py-2">
                                 
                                 {t("MintNFT.changeImg")}
                               </span>
                         </div>
                              
                             </div>
-                          ) : (
-                            <div className="flex flex-col      text-sm h-[150px] dark:bg-[#EBEBEB] dark:text-darkgray   rounded-md justify-center  text-center   w-full ">
-                              <img
-                                src={upfile}
-                                className="h-[50px]  pt-4 object-contain"
-                              ></img>
-                              <span className="text-sm  mx-2 lg:text-md pt-6">
-                                {" "}
-                                {t("MintNFT.file_type")}
-                              </span>
-                            </div>
-                          )}
+                          ) : <br></br>}
+
+{!mint?.file &&
+
+(
+  <div className="flex flex-col      text-sm h-[150px] dark:bg-[#EBEBEB] dark:text-darkgray   rounded-md justify-center  text-center   w-full ">
+    <img
+      src={upfile}
+      className="h-[50px]  pt-4 object-contain"
+    ></img>
+    <span className="text-sm  mx-2 lg:text-md pt-6">
+      {" "}
+      {t("MintNFT.file_type")}
+    </span>
+  </div>
+)
+}
+                         
                         </div>
                         <input
                           onChange={uploadFilePinata}
