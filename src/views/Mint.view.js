@@ -837,13 +837,13 @@ function LightHeroE(props) {
                                 return (
                                   <div
                                     key={index}
-                                    className="w-full flex my-2 gap-2 "
+                                    className="w-full flex my-2 gap-1 "
                                   >
                                     <div className="flex  rounded-md  w-8/12         ">
                                       <input
                                         name="account"
                                         placeholder={t("MintNFT.placeAccount")}
-                                        className="font-open-sans  p-2 h-full dark:bg-white dark:text-darkgray border border-[#A4A2A4] text-left rounded-md justify-center     w-full"
+                                        className="font-open-sans text-xs p-2 h-full dark:bg-white dark:text-darkgray border border-[#A4A2A4] text-left rounded-md justify-center     w-full"
                                         onChange={(event) =>
                                           handleFormChange(event, index)
                                         }
@@ -858,7 +858,7 @@ function LightHeroE(props) {
                                         step="0.1"
                                         name="percent"
                                         placeholder={"%"} //t("MintNFT.placePercent")}
-                                        className="font-open-sans  p-2  h-full dark:bg-white dark:text-darkgray     rounded-md justify-center  w-full "
+                                        className="font-open-sans text-xs  p-1  h-full dark:bg-white dark:text-darkgray     rounded-md justify-center  w-full "
                                         onChange={(event) =>
                                           handleFormChange(event, index)
                                         }
