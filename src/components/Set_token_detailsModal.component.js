@@ -393,11 +393,28 @@ export default function Set_token_detailModal(props) {
           {/*content*/}
 
           <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
-            <div className="w-4/6  items-center  bg-white shadow-lg gap-4  p-4 flex   outline-none focus:outline-none rounded-xlarge">
+            <div className="w-4/6  items-center  bg-white shadow-lg  px-4 py-2 flex flex-col  outline-none focus:outline-none rounded-xlarge">
               {/*header*/}
+              
+              <div name="exit" className="w-full">
+              <div className=" container  w-full  text-end    	relative  pr-2">
+                  <button
+                    className="rounded-full   text-md xl:text-xl 2xl:text-5xl   "
+                    type="button"
+                  
+                  onClick={() => {
+                    
+                    props.change({ show: false })
+                  }}
+                  >
+                    X
+                  </button>
+                </div>
+              </div>
+              <div name="content" className="flex w-full  items-center ">
 
-              <div
-                name="nft"
+
+              <div name="nft"
                 className="rounded-lg w-1/2  m-2  flex flex-col drop-shadow-2xl    "
               >
                 <div className="w-full  h-[200px] lg:h-[300px] xl:h-[400px]  2xl:h-[600px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
@@ -456,20 +473,10 @@ export default function Set_token_detailModal(props) {
                 </div>
               </div>
 
-              <div name="detail" className="w-1/2 mx-2 flex flex-col">
-                <div className=" container rounded-full w-full text-end align-text-top	-mt-4">
-                  <button
-                    className="  w-10  text-md xl:text-xl 2xl:text-5xl   "
-                    type="button"
-                  
-                  onClick={() => {
-                    
-                    props.change({ show: false })
-                  }}
-                  >
-                    x
-                  </button>
-                </div>
+              <div name="detail" className="w-1/2  mx-2 flex flex-col">
+
+
+                
 
                 <div className="w-full flex flex-col gap-2">
                   <>
@@ -654,6 +661,9 @@ export default function Set_token_detailModal(props) {
                     </button> */}
                 </div>
               </div>
+
+              </div>
+             
             </div>
           </div>
         </div>
