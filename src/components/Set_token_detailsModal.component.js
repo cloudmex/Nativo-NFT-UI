@@ -416,9 +416,9 @@ export default function Set_token_detailModal(props) {
 
 
               <div name="nft"
-                className="rounded-lg w-1/2 2xl:w-2/5 m-auto  flex flex-col drop-shadow-2xl    "
+                className="rounded-lg w-1/2  2xl:w-2/5 m-auto  flex flex-col drop-shadow-2xl    "
               >
-                <div className="w-full  h-[200px] lg:h-[300px] xl:h-[300px]  2xl:h-[350px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
+                <div className="w-full  h-[200px] lg:h-[300px] xl:h-[380px]  2xl:h-[400px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
                   <img
                     className="w-full h-full object-cover object-center "
                     alt="hero"
@@ -462,11 +462,11 @@ export default function Set_token_detailModal(props) {
                   </div>
 
                   <div className="flex  mx-2">
-                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-xl  ">
+                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-sm xl:text-md  ">
                                               {t("tokCollection.createdBy")} : 
                                                 
                                             </p>
-                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-lg ">
+                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-sm xl:text-md ">
                                               
                                               {  window.localStorage.getItem("logged_account")}
                                             </p>
@@ -615,7 +615,7 @@ export default function Set_token_detailModal(props) {
                       <div className="xl:mt-6">
                         <input
                           type="checkbox"
-                          className="2xl:h-10 2xl:w-10 "
+                          className="2xl:h-5 2xl:w-5 "
                           name="terms"
                           id="terms"
                           value={terms_m}
