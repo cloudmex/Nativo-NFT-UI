@@ -393,7 +393,7 @@ export default function Set_token_detailModal(props) {
         <div className="  ">
           {/*content*/}
  
-          <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
+          <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-[60] outline-none focus:outline-none ">
             <div className="w-4/6  items-center  bg-white shadow-lg  px-4 py-2 pb-6 flex flex-col  outline-none focus:outline-none rounded-xlarge">
               {/*header*/}
               
