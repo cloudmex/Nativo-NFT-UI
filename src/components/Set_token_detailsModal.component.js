@@ -392,9 +392,9 @@ export default function Set_token_detailModal(props) {
       <>
         <div className="  ">
           {/*content*/}
-
+ 
           <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
-            <div className="w-4/6  items-center  bg-white shadow-lg  px-4 py-2 flex flex-col  outline-none focus:outline-none rounded-xlarge">
+            <div className="w-4/6  items-center  bg-white shadow-lg  px-4 py-2 pb-6 flex flex-col  outline-none focus:outline-none rounded-xlarge">
               {/*header*/}
               
               <div name="exit" className="w-full">
@@ -462,11 +462,11 @@ export default function Set_token_detailModal(props) {
                   </div>
 
                   <div className="flex  mx-2">
-                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-md  ">
+                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-xl  ">
                                               {t("tokCollection.createdBy")} : 
                                                 
                                             </p>
-                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-md">
+                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-lg ">
                                               
                                               {  window.localStorage.getItem("logged_account")}
                                             </p>
@@ -587,11 +587,7 @@ export default function Set_token_detailModal(props) {
                                 : null}
                             </select>
 
-                            <div className="w-full flex ">
-                              <div className="relative group  rounded-full">
-                                <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f2b159] to-[#ca7e16] rounded-full blur opacity-70 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-tilt group-hover:-inset-1"></div>
-                              </div>
-                            </div>
+                          
                           </>
                         ) : (
                           <>
