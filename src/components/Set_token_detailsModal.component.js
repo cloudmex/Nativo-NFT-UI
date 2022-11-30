@@ -80,6 +80,7 @@ export default function Set_token_detailModal(props) {
         showConfirmButton: false,
         timer: 2000,
       });
+      return;
     }
     if (colID_m < 0) {
       Swal.fire({
@@ -399,7 +400,7 @@ export default function Set_token_detailModal(props) {
               <div name="exit" className="w-full">
               <div className=" container  w-full  text-end    	relative  pr-2">
                   <button
-                    className="rounded-full   text-md xl:text-xl 2xl:text-5xl   "
+                    className="rounded-full   text-md xl:text-xl 2xl:text-xl   "
                     type="button"
                   
                   onClick={() => {
@@ -415,9 +416,9 @@ export default function Set_token_detailModal(props) {
 
 
               <div name="nft"
-                className="rounded-lg w-1/2  m-2  flex flex-col drop-shadow-2xl    "
+                className="rounded-lg w-1/2 2xl:w-2/5 m-auto  flex flex-col drop-shadow-2xl    "
               >
-                <div className="w-full  h-[200px] lg:h-[300px] xl:h-[400px]  2xl:h-[600px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
+                <div className="w-full  h-[200px] lg:h-[300px] xl:h-[300px]  2xl:h-[350px] overflow-hidden rounded-t-xl  bg-[#EBEBEB]">
                   <img
                     className="w-full h-full object-cover object-center "
                     alt="hero"
@@ -428,12 +429,12 @@ export default function Set_token_detailModal(props) {
                   name="nft_det"
                   className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
                 >
-                  <p className=" ml-2 text-black uppercase text-md xl:text-2xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
+                  <p className=" ml-2 text-black uppercase text-md xl:text-2xl 2xl:text-3xl  text-ellipsis      font-bold font-open-sans">
                     {props.token?.metadata?.title}
                   </p>
 
                   {props.existcollections && (
-                    <p className=" ml-2 text-black text-xs  xl:text-xl  2xl:text-4xl font-open-sans tracking-wide	 ">
+                    <p className=" ml-2 text-black text-xs  xl:text-xl  2xl:text-xl font-open-sans tracking-wide	 ">
                       {colID_m === -1
                         ? t("addToken.comboOpc")
                         : collectionData.find(({ id }) => id === colID_m)
@@ -448,12 +449,12 @@ export default function Set_token_detailModal(props) {
                       src={props.nearicon}
                     />
                     {new_token_price_m > 0 ? (
-                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-xl 2xl:text-3xl ">
+                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg 2xl:text-xl ">
                         {" "}
                         {new_token_price_m} NEAR
                       </p>
                     ) : (
-                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-xl  2xl:text-3xl ">
+                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg  2xl:text-xl ">
                         {" "}
                         {t("MintNFT.PendingPrice")}
                       </p>
@@ -461,11 +462,11 @@ export default function Set_token_detailModal(props) {
                   </div>
 
                   <div className="flex  mx-2">
-                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-xl  ">
+                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-md  ">
                                               {t("tokCollection.createdBy")} : 
                                                 
                                             </p>
-                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-xl">
+                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-md">
                                               
                                               {  window.localStorage.getItem("logged_account")}
                                             </p>
@@ -483,7 +484,7 @@ export default function Set_token_detailModal(props) {
                     <div className="w-full flex justify-between">
                       <label
                         htmlFor="price"
-                        className=" text-sm  xl:text-2xl  2xl:text-5xl dark:text-darkgray    font-semibold font-raleway"
+                        className=" text-sm  xl:text-lg  2xl:text-xl dark:text-darkgray    font-semibold font-raleway"
                       >
                         {t("Modal.price")}
                       </label>
@@ -500,7 +501,7 @@ export default function Set_token_detailModal(props) {
                       <div className="w-full flex gap-2">
                         <div className="w-[40px] h-[40px]  bg-center  border-2 rounded-full    justify-center items-center">
                           <img
-                            className=" mt-2 m-auto  w-5 h-5 2xl:w-8 2xl:h-8  "
+                            className=" mt-2 m-auto  w-5 h-5 2xl:w-6 2xl:h-6  "
                             alt="near"
                             src={props.nearicon}
                           />
@@ -512,14 +513,14 @@ export default function Set_token_detailModal(props) {
                             min="0.1"
                             max="100000000000000"
                             step="0.1"
-                            className="w-4/6 text-xs  xl:text-lg  2xl:text-3xl  2xl:h-20 pl-2 h-full"
+                            className="w-4/6 text-xs  xl:text-lg  2xl:text-lg  2xl:h-10 pl-2 h-full"
                             placeholder={new_token_price_m}
                             onChange={(e) => {
                               set_new_price(e);
                             }}
                           />
 
-                          <label className="w-2/6 py-2 text-xs items-center xl:text-lg 2xl:text-3xl ">
+                          <label className="w-2/6 py-2 text-xs items-center xl:text-lg 2xl:text-xl ">
                             {}≈{" "}
                             {(new_token_price_m * props.nearprice)
                               .toString()
@@ -535,7 +536,7 @@ export default function Set_token_detailModal(props) {
                   <div className="w-full flex justify-between">
                     <label
                       htmlFor="collections"
-                      className=" text-sm  xl:text-2xl  2xl:text-3xl dark:text-darkgray    font-semibold font-raleway"
+                      className=" text-sm  xl:text-xl  2xl:text-xl dark:text-darkgray    font-semibold font-raleway"
                     >
                       {t("addToken.addtocol")}
                     </label>
@@ -559,12 +560,12 @@ export default function Set_token_detailModal(props) {
                               name="collectinos"
                               className="  justify-center"
                             >
-                              <p className="   text-center text-2xl 2xl:text-3xl leading-relaxed text-darkgray font-raleway">
+                              <p className="   text-center text-lg 2xl:text-xl leading-relaxed text-darkgray font-raleway">
                                 {/* {props.message} */}
                               </p>
                             </div>
                             <select
-                              className="text-darkgray 2xl:h-20 2xl:text-3xl p-2 font-raleway"
+                              className="text-darkgray 2xl:h-10 2xl:text-lg p-2 font-raleway"
                               onChange={(e) => {
                                 setColID_m(e.target.value);
                                 setColName_m(e.target.value);
@@ -576,7 +577,7 @@ export default function Set_token_detailModal(props) {
                               {collectionData.length > 0
                                 ? collectionData.map((data) => (
                                     <option
-                                      className="bg-indigo-500"
+                                      className=""
                                       key={data.id}
                                       value={data.id}
                                     >
@@ -595,11 +596,11 @@ export default function Set_token_detailModal(props) {
                         ) : (
                           <>
                             <div className="flex flex-col  justify-center">
-                              <p className="text-darkgray text-sm 2xl:text-5xl text-left underline decoration-solid	  mb-4">
+                              <p className="text-darkgray text-sm 2xl:text-xl text-left underline decoration-solid	  mb-4">
                                 {t("addToken.msgNoCol")}
                               </p>
                               <a
-                                className="relative bg-lime-600 text-white text-center font-bold  text-sm  xl:text-lg  2xl:text-5xl px-6 py-3 rounded-md   ease-linear transition-all duration-150  hover:scale-105"
+                                className="relative bg-lime-600 text-white text-center font-bold  text-sm  xl:text-lg  2xl:text-lg px-6 py-3 rounded-md   ease-linear transition-all duration-150  hover:scale-105"
                                 href="/collectionData/create"
                               >
                                 {t("addToken.btnCol")}
@@ -624,7 +625,7 @@ export default function Set_token_detailModal(props) {
                           value={terms_m}
                           onChange={AcceptTerms}
                         />{" "}
-                        <label className="my-auto text-xs lg:text-md xl:text-lg 2xl:text-xl  text-darkgray">
+                        <label className="my-auto text-xs lg:text-md xl:text-lg 2xl:text-lg  text-darkgray">
                           <a
                             className="hover:underline hover:text-blue"
                             href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones"
@@ -641,8 +642,8 @@ export default function Set_token_detailModal(props) {
                         title={t("MintNFT.AccetTerms")}
                         className={
                           !terms_m
-                            ? "w-full  relative rounded-md px-4 py-2 bg-[#A4A2A4]  text-white    text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl 2xl:text-5xl  font-bold "
-                            : "w-full   relative rounded-md px-4 py-2 bg-white hover:bg-green-600  text-green-600  hover:text-white border-2 border-green-600 text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-5xl font-bold "
+                            ? "w-full  relative rounded-md px-4 py-2 bg-[#A4A2A4]  text-white    text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl 2xl:text-2xl  font-bold "
+                            : "w-full   relative rounded-md px-4 py-2 bg-white hover:bg-green-600  text-green-600  hover:text-white border-2 border-green-600 text-center hover:scale-105 tracking-tighter  font-open-sans text-xs lg:text-lg xl:text-2xl  2xl:text-2xl font-bold "
                         }
                         onClick={(e) => {
                           SetPrice_modal();

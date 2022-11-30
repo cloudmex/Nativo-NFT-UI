@@ -483,7 +483,7 @@ function LightHeroE(props) {
                       <h3 className=" text-black  rounded-md  hover:text-white hover:scale-110 tracking-tighter text-4xl      font-open-sans font-bold ">
                         {" "}
                         {t("MintNFT.congrats")}
-                       
+                        {getsize()}
                       </h3>
                     
                   </div>
