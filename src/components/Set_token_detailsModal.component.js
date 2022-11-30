@@ -393,7 +393,7 @@ export default function Set_token_detailModal(props) {
         <div className="  ">
           {/*content*/}
  
-          <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-40 outline-none focus:outline-none ">
+          <div className=" justify-center items-center flex flex-col overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none ">
             <div className="w-4/6  items-center  bg-white shadow-lg  px-4 py-2 pb-6 flex flex-col  outline-none focus:outline-none rounded-xlarge">
               {/*header*/}
               
@@ -429,7 +429,7 @@ export default function Set_token_detailModal(props) {
                   name="nft_det"
                   className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
                 >
-                  <p className=" ml-2 text-black uppercase text-md xl:text-2xl 2xl:text-3xl  text-ellipsis      font-bold font-open-sans">
+                  <p className=" ml-2 my-2 text-black uppercase text-md xl:text-2xl 2xl:text-3xl  text-ellipsis      font-bold font-open-sans">
                     {props.token?.metadata?.title}
                   </p>
 
@@ -442,7 +442,7 @@ export default function Set_token_detailModal(props) {
                     </p>
                   )}
 
-                  <div className="ml-2 flex">
+                  <div className="ml-2 my-2 flex">
                     <img
                       className=" mt-1 w-5 h-5  2xl:w-6 2xl:h-6  "
                       alt="near"
