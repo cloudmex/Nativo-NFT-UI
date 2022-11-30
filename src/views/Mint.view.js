@@ -705,20 +705,21 @@ function LightHeroE(props) {
                       <label className={` `}>
                         <div className="flex w-full  ">
                           {mint?.file ? (
-                            <div className="flex flex-col  relative     text-sm h-full dark:bg-[#EBEBEB] dark:text-darkgray   rounded-lg justify-center  text-center   w-full ">
+                            <div className="flex flex-col  relative     text-sm h-30 dark:bg-[#EBEBEB] dark:text-darkgray   rounded-lg justify-center  text-center   w-full ">
                               
                               <img
-                          className="w-full h-full rounded-md    m-auto  object-cover object-center "
+                          className="w-full h-60 xl:h-72 2xl:h-92 rounded-md    m-auto  object-cover object-center "
                           alt="hero"
                           src={mint?.file}
+                          
                         />
-                        <div name="text img" className=" w-full flex rounded-lg flex-col  justify-center h-full absolute opacity-0 hover:opacity-80  bg-black ">
+                        {/* <div name="text img" className=" w-full flex rounded-lg flex-col  justify-center  absolute opacity-0 hover:opacity-80  bg-black ">
                              <p className="absolute top-1/2 w-full  text-center text-white   -translate-y-1/2  text-md truncate m-auto">{mint?.name}</p>
                               <span className="absolute top-1/2  w-full   text-white  border border-white  -translate-y-1 text-sm rounded-md	uppercase font-bold  m-auto  py-2">
                                 
                                 {t("MintNFT.changeImg")}
                               </span>
-                        </div>
+                        </div> */}
                              
                             </div>
                           ) : <br></br>}
@@ -1032,7 +1033,7 @@ function LightHeroE(props) {
                           ? formik.values.title
                           : t("MintNFT.write_title")}
                       </p>
-                      <p className=" text-black capitalize text-md truncate   md:text-lg   font-open-sans">
+                      <p className=" text-black normal-case text-md truncate   md:text-lg   font-open-sans">
                         {formik.values.description
                           ? formik.values.description
                           : t("MintNFT.descTxt")}
@@ -1045,17 +1046,22 @@ function LightHeroE(props) {
                           src={nearicon}
                         />
 
-                        <p className="text-[#F79336] ml-4  font-bold font-open-sans uppercase  text-lg ">
+                        <p className="text-[#F79336] ml-4 normal-case font-bold font-open-sans    text-lg ">
                           {" "}
                           {t("MintNFT.PendingPrice")}
                         </p>
                       </div>
 
-                      <p className="text-black content-en mt-4 mb-2 font-open-sans text-sm md:text-md leading-5">
-                        {t("tokCollection.createdBy") +
-                          ":" +
-                          window.localStorage.getItem("logged_account")}{" "}
-                      </p>
+                      <div className="flex ">
+                      <p className="text-black content-en leading-5 ml-2 mb-2 font-open-sans tracking-[3.45px] text-sm md:text-md ">
+                                              {t("tokCollection.createdBy")} : 
+                                                
+                                            </p>
+                                            <p className="text-black content-en  mb-2 font-open-sans font-bold text-sm md:text-md ">
+                                              
+                                              {  window.localStorage.getItem("logged_account")}
+                                            </p>
+                      </div>
                     </div>
                   </div>
                 </div>

@@ -777,7 +777,87 @@ function LightHeroE(props) {
                 </div>
               </div>
 
+
+
               <div
+                  name="nft_detail"
+                  className={
+                    "  px-4 md:px-8  py-8  md:py-20  mx-auto  w-4/5 md:w-3/5  lg:w-3/6 xl:w-5/12  2xl:1/2 drop-shadow-2xl       md:flex-row flex-col  md:justify-center    "
+                  }
+                >
+                  
+                  <div
+                    name="card"
+                    className={
+                      hide_create_col
+                        ? " sm:hidden "
+                        : "" + "rounded-2xl flex flex-col    h-full "
+                    }
+                  >
+                    {" "}
+                    {
+                      //h-7/12
+                    }
+                    <div className="w-full   h-[280px]   md:h-[340px] lg:h-[350px]  xl:h-[450px]  overflow-hidden rounded-t-2xl   bg-[#EBEBEB]">
+                      
+                        <img
+                          className=" w-full h-full  object-cover object-center "
+                          alt="hero"
+                          src={`https://nativonft.mypinata.cloud/ipfs/${LToken?.metadata?.media}`}
+                        />
+                     
+                    </div>
+                    <div
+                      name="card_det"
+                      className="w-full rounded-b-2xl   pt-4 px-4    bg-white h-full md:h-[170px]"
+                    >
+                      <p className=" text-black uppercase text-2xl truncate   md:text-3xl  font-bold font-open-sans">
+                      {LToken?.metadata
+                        ? LToken?.metadata?.title
+                        : t("MintNFT.write_title")}
+                      </p>
+                      <p className=" text-black normal-case text-md truncate   md:text-lg   font-open-sans">
+                      {colID === -1
+                          ? t("addToken.comboOpc")
+                          : collectionData.find(({ id }) => id === colID)
+                              ?.title}
+                      </p>
+
+                      <div className="py-2 flex">
+                        <img
+                          className=" mt-1 w-5 h-5   "
+                          alt="near"
+                          src={nearicon}
+                        />
+
+                        {new_token_price > 0 ? (
+                        <p className="text-[#F79336] ml-4  font-bold font-open-sans   text-md lg:text-xl  xl:text-xl ">
+                          {" "}
+                          {new_token_price} NEAR
+                        </p>
+                      ) : (
+                        <p className="text-[#F79336] ml-4  normal-case font-bold font-open-sans   text-lg lg:text-xl  xl:text-xl  ">
+                          {" "}
+                          {t("MintNFT.PendingPrice")}
+                        </p>
+                      )}
+                      </div>
+
+                      <div className="flex ">
+                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[3.45px] text-sm md:text-md ">
+                                              {t("tokCollection.createdBy")} : 
+                                                
+                                            </p>
+                                            <p className="text-black content-en  mb-2 font-open-sans font-bold text-sm md:text-md ">
+                                              
+                                              {  window.localStorage.getItem("logged_account")}
+                                            </p>
+                      </div>
+                     
+                    </div>
+                  </div>
+                </div>
+              {/* <div
                 name="nft_detail"
                 className={
                   "  px-4 md:px-8  mx-auto   mt-4 md:mt-16    w-11/12 h-full    md:w-3/5  lg:w-6/12 xl:w-6/12	       drop-shadow-xl       md:flex-row flex-col  md:justify-center xl:justify-center    "
@@ -842,7 +922,7 @@ function LightHeroE(props) {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
             {
                 window.innerWidth >=640  &&

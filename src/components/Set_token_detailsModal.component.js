@@ -411,12 +411,12 @@ export default function Set_token_detailModal(props) {
                   name="nft_det"
                   className="w-full h-1/5    rounded-b-xl   pt-1 px-1  bg-white   shadow-lg"
                 >
-                  <p className=" ml-2 text-black capitalize text-md xl:text-xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
+                  <p className=" ml-2 text-black uppercase text-md xl:text-2xl 2xl:text-5xl  text-ellipsis      font-bold font-open-sans">
                     {props.token?.metadata?.title}
                   </p>
 
                   {props.existcollections && (
-                    <p className=" ml-2 text-black text-sm  xl:text-lg  2xl:text-4xl font-open-sans tracking-wide	 ">
+                    <p className=" ml-2 text-black text-xs  xl:text-xl  2xl:text-4xl font-open-sans tracking-wide	 ">
                       {colID_m === -1
                         ? t("addToken.comboOpc")
                         : collectionData.find(({ id }) => id === colID_m)
@@ -431,23 +431,28 @@ export default function Set_token_detailModal(props) {
                       src={props.nearicon}
                     />
                     {new_token_price_m > 0 ? (
-                      <p className="text-[#F79336] ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg 2xl:text-3xl ">
+                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-xl 2xl:text-3xl ">
                         {" "}
                         {new_token_price_m} NEAR
                       </p>
                     ) : (
-                      <p className="text-[#F79336] ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-lg  2xl:text-3xl ">
+                      <p className="text-[#F79336] normal-case ml-2 my-auto font-bold font-open-sans   text-[13px] lg:text-md xl:text-xl  2xl:text-3xl ">
                         {" "}
                         {t("MintNFT.PendingPrice")}
                       </p>
                     )}
                   </div>
 
-                  <p className="ml-2 text-black content-en mt-2 mb-2   font-open-sans text-[10px]  xl:text-lg 2xl:text-3xl ">
-                    {t("tokCollection.createdBy") +
-                      ": " +
-                      window.localStorage.getItem("logged_account")}{" "}
-                  </p>
+                  <div className="flex  mx-2">
+                      <p className="text-black content-en leading-5 mb-2 font-open-sans tracking-[0.45px] lg:tracking-[3.45px]   md:text-[9px] lg:text-md xl:text-xl  ">
+                                              {t("tokCollection.createdBy")} : 
+                                                
+                                            </p>
+                                            <p className="text-black leading-5 content-en  mb-2 font-open-sans font-bold md:text-[9px] lg:text-md xl:text-xl">
+                                              
+                                              {  window.localStorage.getItem("logged_account")}
+                                            </p>
+                      </div>
                 </div>
               </div>
 
@@ -612,7 +617,7 @@ export default function Set_token_detailModal(props) {
                           value={terms_m}
                           onChange={AcceptTerms}
                         />{" "}
-                        <label className="my-auto text-xs lg:text-md xl:text-slg 2xl:text-xl  text-darkgray">
+                        <label className="my-auto text-xs lg:text-md xl:text-lg 2xl:text-xl  text-darkgray">
                           <a
                             className="hover:underline hover:text-blue"
                             href="https://docs.nativo.art/internal-wiki/terminos-legales/terminos-y-condiciones"
