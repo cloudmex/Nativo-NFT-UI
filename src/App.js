@@ -10,6 +10,7 @@ import ColorBar from "./components/ColorBar.component";
 import Landing from "./views/Landing.view";
 import Gallery from "./views/gallery";
 import Detail from "./views/Detail.view";
+import Detail2 from "./views/TokenDetail.view";
 import Mint from "./views/mintNft.view";
 import Mint2 from "./views/Mint.view";
 import FinishMint from "./views/FinishMint.view";
@@ -93,6 +94,8 @@ class App extends Component {
             <Route path="/community" component={Community} />
             <Route path="/viewcollection/:data" component={TokensCollection} />
             <Route path="/detail/:data" component={Detail}/>
+            <Route path="/detail2/:data" component={Detail2}/>
+
             <BlockchainProtectedRoute path="/mynfts" component={MisNfts} />
             <Route component={notFound} />
           </Switch>
