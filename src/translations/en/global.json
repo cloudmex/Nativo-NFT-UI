@@ -385,7 +385,9 @@
         "since" : "Profile created in:",
         "prefUsr" : "User preferences",
         "language" : "Language",
-        "addNTV" : "Add my NTVs to my wallet"
+        "addNTV" : "Add my NTVs to my wallet",
+        "activity":"Activity",
+        "offers":"Offers"
     },
     "addToken" : {
         "alert1-title" : "Select a collection",

@@ -18,6 +18,10 @@ import defaultUser from "../assets/img/Userdefaultprof.png";
 import upphoto from "../assets/img/add_a_photo.svg";
 import bannerphoto from "../assets/img/bannerprofiledef.svg";
 import checkcircle from "../assets/img/checkcircle.svg";
+
+import activity_img from "../assets/img/activity.svg";
+import approval_img from "../assets/img/APROVAL.svg";
+ 
 import { useFormik } from "formik";
 
 import * as Yup from "yup";
@@ -558,6 +562,30 @@ function LightEcommerceB(props) {
                   {...formik.getFieldProps("bio")}
                   className={`font-open-sans mx-2  flex flex-col  h-full dark:bg-white dark:text-darkgray   text-left  justify-center focus-visible:outline-none  w-full`}
                 />
+              </div>
+
+              <div name="activitySection" className="w-full mt-4 flex">
+
+              
+                <button className="w-1/2 h-36 rounded-lg shadow-xl flex flex-col items-center justify-center">
+                <img
+                  alt="activity_img"
+                  className="  w-10 h-10  mx-2 "
+                  src={activity_img}
+                /> 
+                 <a className="font-bold">{ t("Profile.activity")}</a>
+                  </button>
+                <button className="w-1/2 h-36 rounded-lg shadow-xl flex flex-col items-center justify-center">
+                  
+                <img
+                  alt="activity_img"
+                  className="  w-10 h-10  mx-2 "
+                  src={approval_img}
+                /> 
+                 <a>{ t("Profile.offers")}</a>
+                  </button>
+
+                
               </div>
 
               <div className="relative group mt-10 rounded-md ">

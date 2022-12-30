@@ -385,7 +385,9 @@
         "prefUsr" : "Preferencias del usuario",
         "language" : "Idioma",
  
-        "addNTV" : "Agregar mis NTVs a mi wallet"
+        "addNTV" : "Agregar mis NTVs a mi wallet",
+        "activity":"Actividad",
+        "offers":"Ofertas"
     },
     "addToken" : {
         "alert1-title" : "Selecciona una coleccion",
