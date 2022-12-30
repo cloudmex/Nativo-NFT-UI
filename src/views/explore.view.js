@@ -50,6 +50,7 @@ function Explore() {
     const [colData, setColData] = React.useState(false)
     const [artData, setArtData] = React.useState(false)
 
+    
     const APIURL = process.env.REACT_APP_API_TG
 
     const data = window.location.search;
