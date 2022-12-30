@@ -83,7 +83,8 @@
         "logoutMsg" : "Want to Logout?",
         "logoutMsgSub" : "Remember that to navigate on site correctly, your wallet must be connected, in the same way you can connect it at any time",
         "createMsg" : "what do you want to create?",
-        "artists" : "Artists"
+        "artists" : "Artists",
+        "buyNear" : "buy NEAR"
     },
     "Footer" : {
         "made" : "Made with:",
@@ -475,7 +476,13 @@
         "congratsMsgV1" : "Your NFT has been successfully put up for sale",
         "congratsMsgV2" : "Your NFT has been successfully listed and added to a collection",
         "removeSaleTit" : "You have removed your NFT from sale",
-        "removeSaleMsg" : "Your NFT has been successfully removed from sale"
+        "removeSaleMsg" : "Your NFT has been successfully removed from sale",
+        "transakErrorTit" : "Error",
+        "transakErrorMsg" : "The transaction has failed, try again later",
+        "transakSuccessTit": "Transaction executed",
+        "transakSuccessMsg1": "Your purchase of ",
+        "transakSuccessMsg2": " for ",
+        "transakSuccessMsg3": " it has been done correctly this will be reflected between 1-5 minutes"
     },
     "Explore" : {
         "titleTok" : "Explore all Tokens",

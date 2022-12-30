@@ -41,6 +41,8 @@ import menuArrowRight from '../assets/img/navBar/menu/chevron-left.png';
 import menuArrowLeft from '../assets/img/navBar/menu/chevron-right.png';
 import createNft from '../assets/img/navBar/menu/plus-nft.png';
 import createCol from '../assets/img/navBar/menu/plus-col.png';
+import transakSDK from '@transak/transak-sdk'
+import nearImage from '../assets/img/landing/trendingSection/Vector.png';
 
 
 function LightHeaderB(props) {
@@ -68,12 +70,12 @@ function LightHeaderB(props) {
   const [signIn, setSignIn] = useState(false)
 
   useEffect(() => {
-    if(signIn){
+    if (signIn) {
       console.log('Se inicio sesion')
       window.location.reload()
     }
     //window.location.reload()
-  },[accountId])
+  }, [accountId])
 
   const handleMenuStateChange = () => {
 
@@ -135,6 +137,66 @@ function LightHeaderB(props) {
     setSignIn(true)
   }
 
+  const launchTransak = () => {
+    let env = process.env.REACT_APP_NEAR_ENV == "mainnet" ? 'PRODUCTION' : 'STAGING'
+    let transak = new transakSDK({
+      apiKey: `${process.env.REACT_APP_TRANSAK_API_KEY}`,
+      environment: env,
+      widgetWidth: `360px`,
+      widgetHeight: `600px`,
+      themeColor: `#F79336`,
+      defaultCryptoCurrency: 'NEAR',
+      walletAddress: accountId,
+    })
+    transak.init();
+    // widget close
+    transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => {
+      transak.close()
+    })
+    //Transaction failed
+    transak.on(transak.EVENTS.TRANSAK_ORDER_FAILED, () => {
+      Swal.fire({
+        background: '#0a0a0a',
+        toast: true,
+        icon: "error",
+        timer: 8000,
+        showConfirmButton: false,
+        position: 'top-end',
+        timerProgressBar: true,
+        html:
+            '<div class="">' +
+            '<div class="font-open-sans  text-base font-extrabold text-white mb-4 text-left uppercase">' +  t("Alerts.transakErrorTit") + '</div>' +
+            '<div class="font-open-sans  text-sm text-white text-left">' + t("Alerts.transakErrorMsg") + '</div>' +
+            '</div>',
+      }).then(()=>{
+        transak.close()
+      })
+    })
+    // This will trigger when the user marks payment is made.
+    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, (successData) => {
+      const fiatCurrency = successData?.status?.fiatCurrency
+      const fiatAmount = successData?.status?.fiatAmount
+      const cryptoCurrency = successData?.status?.cryptoCurrency
+      const cryptoAmount = successData?.status?.cryptoAmount
+      Swal.fire({
+        background: '#0a0a0a',
+        toast: true,
+        icon: "success",
+        timer: 8000,
+        showConfirmButton: false,
+        position: 'top-end',
+        timerProgressBar: true,
+        html:
+            '<div class="">' +
+            '<div class="font-open-sans  text-base font-extrabold text-white mb-4 text-left uppercase">' +  t("Alerts.transakSuccessTit") + '</div>' +
+            '<div class="font-open-sans  text-sm text-white text-left">' + `${t("Alerts.transakSuccessMsg1")} ${fiatAmount} ${fiatCurrency} ${t("Alerts.transakSuccessMsg2")} ${cryptoAmount} ${cryptoCurrency} ${t("Alerts.transakSuccessMsg3")}` +'</div>' +
+            '</div>',
+      }).then(()=>{
+        transak.close()
+      })
+    });
+  }
+
   const handleLanguage = () => {
     if (window.localStorage.getItem("LanguageState") == "en") {
       i18n.changeLanguage("es")
@@ -194,7 +256,7 @@ function LightHeaderB(props) {
             console.log('error: ', err)
           });
         let loggedAccount2 = accountId;
-        window.localStorage.setItem("logged_account",accountId)
+        window.localStorage.setItem("logged_account", accountId)
         userMedia = window.localStorage.getItem('userMedia');
         // let json2 = "";
         // if (loggedAccount2) {
@@ -243,19 +305,19 @@ function LightHeaderB(props) {
 
   async function handleCreatebutton() {
     if (stateLogin) {
-      
+
       Swal.fire({
         background: '#0a0a0a',
         width: '800',
         heightAuto: false,
         html:
           '<div class=" flex flex-col overflow-hidden">' +
-          '<div class="font-open-sans  text-base font-extrabold text-white my-4 text-left w-full uppercase">' +  t("Navbar.createMsg") + '</div>' +
+          '<div class="font-open-sans  text-base font-extrabold text-white my-4 text-left w-full uppercase">' + t("Navbar.createMsg") + '</div>' +
 
           '</div>',
         showCloseButton: true,
-        confirmButtonText:  t("Navbar.create"),
-        cancelButtonText:  t("Navbar.createCollection"),
+        confirmButtonText: t("Navbar.create"),
+        cancelButtonText: t("Navbar.createCollection"),
         showCancelButton: true,
         showConfirmButton: true,
         buttonsStyling: false,
@@ -265,14 +327,14 @@ function LightHeaderB(props) {
         },
         position: window.innerWidth < 1024 ? 'bottom' : 'center'
       }).then((result) => {
-          if (result.isConfirmed) {
-              window.location.href = "/create"
-          } 
-          if(result.dismiss == 'cancel') {
-              window.location.href = "/collection/create" 
-          }
-        });
-      
+        if (result.isConfirmed) {
+          window.location.href = "/create"
+        }
+        if (result.dismiss == 'cancel') {
+          window.location.href = "/collection/create"
+        }
+      });
+
     } else {
       handleSignIn()
     }
@@ -286,7 +348,7 @@ function LightHeaderB(props) {
       width: '800',
       html:
         '<div class="">' +
-        '<div class="font-open-sans  text-base font-extrabold text-white mb-4 text-left uppercase">' +  t("Navbar.logoutMsg") + '</div>' +
+        '<div class="font-open-sans  text-base font-extrabold text-white mb-4 text-left uppercase">' + t("Navbar.logoutMsg") + '</div>' +
         '<div class="font-open-sans  text-sm text-white text-left">' + t("Navbar.logoutMsgSub") + '</div>' +
         '</div>',
       confirmButtonText: t("Navbar.logout"),
@@ -588,10 +650,17 @@ function LightHeaderB(props) {
               <img src={lupa} alt="lupa" />
             </button>
           </form>
- 
+          
+
+          
           {
             stateLogin ?
               <>
+                <button className={"invisible lg:visible flex inline-flex rounded-xlarge w-full h-[40px]  mt-0  lg:w-[159px] mr-5"} onClick={launchTransak}>
+                  <div className="flex flex-col font-extrabold h-full text-white  text-center  justify-center shadow-s w-full border-solid border-2 rounded-md border-white2 hover:bg-outlineHover active:bg-outlinePressed ">
+                    <span className="title-font  text-white font-open-sans font-normal lg:font-extrabold text-sm xl:text-base p-5 uppercase leading-6 flex justify-center hover:text-textOutlineHover active:text-textOutlinePressed  ">{t("Navbar.buyNear")}  <div className="w-[15px] h-[15px] self-center ml-[6px]"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path class="fill-current" d="M19.1736 1.21319L14.2154 8.57143C13.8725 9.07253 14.5318 9.67912 15.0066 9.25714L19.8857 5.01099C20.0175 4.90549 20.2022 4.98462 20.2022 5.16923V18.4352C20.2022 18.6198 19.9648 18.6989 19.8593 18.567L5.09008 0.896703C4.61535 0.316484 3.92964 0 3.1648 0H2.63733C1.2659 0 0.131836 1.13407 0.131836 2.53187V21.2044C0.131836 22.6022 1.2659 23.7363 2.6637 23.7363C3.53403 23.7363 4.35162 23.2879 4.82634 22.5231L9.78458 15.1648C10.1274 14.6637 9.4681 14.0571 8.99337 14.4791L4.11425 18.6989C3.98239 18.8044 3.79777 18.7253 3.79777 18.5407V5.3011C3.79777 5.11648 4.03513 5.03736 4.14063 5.16923L18.9099 22.8396C19.3846 23.4198 20.0967 23.7363 20.8351 23.7363H21.3626C22.7604 23.7363 23.8945 22.6022 23.8945 21.2044V2.53187C23.8945 1.13407 22.7604 0 21.3626 0C20.4659 0 19.6483 0.448352 19.1736 1.21319V1.21319Z"></path></g><defs><clipPath id="clip0"><rect width="24" height="23.7363" fill="white"></rect></clipPath></defs></svg></div> </span>
+                  </div>
+                </button>
                 <button className="w-[30px] h-[30px] mr-[5px] hidden lg:inline-block" onClick={async () => { futureFeatureMsg(t("Navbar.loans")); }}>
                   <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 40 40" fill="none">
                     <path d="M28 14.669C28 12.5473 27.1571 10.5125 25.6569 9.01217C24.1566 7.51188 22.1217 6.66903 20 6.66903C17.8783 6.66903 15.8434 7.51188 14.3431 9.01217C12.8429 10.5125 12 12.5473 12 14.669C12 24.0024 8 26.669 8 26.669H32C32 26.669 28 24.0024 28 14.669Z" stroke="#FDFCFD" stroke-width="2.66667" stroke-linecap="round" stroke-linejoin="round" />
@@ -649,13 +718,6 @@ function LightHeaderB(props) {
                                 </a>
                               )}
                             </MenuB.Item>
-
-
-
-
-
-
-
 
                             <MenuB.Item
                             >
@@ -718,8 +780,6 @@ function LightHeaderB(props) {
                               )}
                             </MenuB.Item>
 
-
-
                             <MenuB.Item
                               onClick={async () => {
                                 logOut();
@@ -759,11 +819,11 @@ function LightHeaderB(props) {
                     <div className={classNames(showSearchSubMenu ? "transform -translate-x-full duration-600" : "transform translate-x-full duration-600", "fixed w-full top-0 left-full h-[80px] flex items-center dark:bg-[#0A0A0A] z-[1200]")}>
                       <button onClick={handleSearchSubMenu}>
                         <img
-                        className="w-[25px] h-[25px] ml-2"
-                        src={menuArrowLeft}
-                        alt={menuArrowLeft}
-                        width={25}
-                        height={25} />
+                          className="w-[25px] h-[25px] ml-2"
+                          src={menuArrowLeft}
+                          alt={menuArrowLeft}
+                          width={25}
+                          height={25} />
                       </button>
                       <form
                         onSubmit={formik.handleSubmit}
@@ -799,20 +859,20 @@ function LightHeaderB(props) {
                   <Menu isOpen={state.isOpen} onStateChange={() => handleMenuStateChange()} pageWrapId={'page-wrap'} outerContainerId={'outer-container'}  >
                     <div>
                       <button
-                      className={` mt-5 text-white b border-0 py-2  focus:outline-none w-[220px] md:w-auto rounded-md font-open-sans font-extrabold uppercase flex w-full`}
-                      style={{ justifyContent: "center" }}
-                      onClick={handleProfileSubMenu}>
-                      <div className="flex items-center">
-                        {state.userMedia ?
-                          <div className="w-[60px] h-[60px]  bg-circle rounded-md  relative bg-cover " style={{ backgroundImage: `url(https://nativonft.mypinata.cloud/ipfs/${state.userMedia})` }} >
-                          </div> :
-                          <div className="w-[60px] h-[60px]  bg-circle rounded-md  relative bg-cover hhh " style={{ backgroundImage: `url(${empty})` }} >
-                          </div>
-                        }
-                        <p className="text-base text-white leading-6 font-semibold text-ellipsis overflow-hidden whitespace-nowrap w-3/4 ml-2">{state.owner}</p>
-                      </div>
-                    </button>
-                    <div className={classNames(showProfileSubMenu ? "transform -translate-x-[620px] duration-600" : "transform -translate-x-80 duration-600", "w-[300px] h-full dark:bg-[#0A0A0A]  fixed z-[1200] -right-[620px] top-[80px] px-[42px]")}>
+                        className={` mt-5 text-white b border-0 py-2  focus:outline-none w-[220px] md:w-auto rounded-md font-open-sans font-extrabold uppercase flex w-full`}
+                        style={{ justifyContent: "center" }}
+                        onClick={handleProfileSubMenu}>
+                        <div className="flex items-center">
+                          {state.userMedia ?
+                            <div className="w-[60px] h-[60px]  bg-circle rounded-md  relative bg-cover " style={{ backgroundImage: `url(https://nativonft.mypinata.cloud/ipfs/${state.userMedia})` }} >
+                            </div> :
+                            <div className="w-[60px] h-[60px]  bg-circle rounded-md  relative bg-cover hhh " style={{ backgroundImage: `url(${empty})` }} >
+                            </div>
+                          }
+                          <p className="text-base text-white leading-6 font-semibold text-ellipsis overflow-hidden whitespace-nowrap w-3/4 ml-2">{state.owner}</p>
+                        </div>
+                      </button>
+                      <div className={classNames(showProfileSubMenu ? "transform -translate-x-[620px] duration-600" : "transform -translate-x-80 duration-600", "w-[300px] h-full dark:bg-[#0A0A0A]  fixed z-[1200] -right-[620px] top-[80px] px-[42px]")}>
                         <button className="font-open-sans font-extrabold text-base leading-4 flex text-white justify-between uppercase " onClick={handleProfileSubMenu}>
                           <img
                             className=""
@@ -968,6 +1028,13 @@ function LightHeaderB(props) {
                         <span className="title-font  text-white font-open-sans text-base lg:font-extrabold p-0 uppercase leading-6 flex justify-center ">{t("Navbar.createCollection")} <img className="manImg self-center ml-[6px]" width="20px" height="20px" src={createCol}></img> </span>
                       </div>
                     </button>
+
+                    <button className="flex  rounded-xlarge w-full h-[40px]  lg:w-[159px] mt-3" onClick={launchTransak}>
+                      <div className="flex flex-col font-extrabold h-full text-white  text-center  justify-center shadow-s w-full border-solid border-2 rounded-md border-white2  ">
+                        <span className="title-font  text-white font-open-sans text-base lg:font-extrabold p-0 uppercase leading-6 flex justify-center ">{t("Navbar.buyNear")}   <div className="w-[15px] h-[15px] self-center ml-2"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path class="fill-current" d="M19.1736 1.21319L14.2154 8.57143C13.8725 9.07253 14.5318 9.67912 15.0066 9.25714L19.8857 5.01099C20.0175 4.90549 20.2022 4.98462 20.2022 5.16923V18.4352C20.2022 18.6198 19.9648 18.6989 19.8593 18.567L5.09008 0.896703C4.61535 0.316484 3.92964 0 3.1648 0H2.63733C1.2659 0 0.131836 1.13407 0.131836 2.53187V21.2044C0.131836 22.6022 1.2659 23.7363 2.6637 23.7363C3.53403 23.7363 4.35162 23.2879 4.82634 22.5231L9.78458 15.1648C10.1274 14.6637 9.4681 14.0571 8.99337 14.4791L4.11425 18.6989C3.98239 18.8044 3.79777 18.7253 3.79777 18.5407V5.3011C3.79777 5.11648 4.03513 5.03736 4.14063 5.16923L18.9099 22.8396C19.3846 23.4198 20.0967 23.7363 20.8351 23.7363H21.3626C22.7604 23.7363 23.8945 22.6022 23.8945 21.2044V2.53187C23.8945 1.13407 22.7604 0 21.3626 0C20.4659 0 19.6483 0.448352 19.1736 1.21319V1.21319Z"></path></g><defs><clipPath id="clip0"><rect width="24" height="23.7363" fill="white"></rect></clipPath></defs></svg></div> </span>
+                      </div>
+                    </button>
+
                     <button className="flex  rounded-xlarge w-full h-[40px]  lg:w-[159px] mt-3" onClick={() => { logOut() }}>
                       <div className="flex flex-col font-extrabold h-full text-yellow2  text-center  justify-center shadow-s w-full border-solid border-2 rounded-md border-yellow2">
                         <span className="title-font  text-yellow2 font-open-sans text-base lg:font-extrabold p-5 uppercase leading-6 flex justify-center ">{t("Navbar.logout")}<img className="manImg self-center ml-[6px]" width="20px" height="20px" src={salir}></img> </span>
@@ -996,11 +1063,11 @@ function LightHeaderB(props) {
                     <div className={classNames(showSearchSubMenu ? "transform -translate-x-full duration-600" : "transform translate-x-full duration-600", "fixed w-full top-0 left-full h-[80px] flex items-center dark:bg-[#0A0A0A] z-[1200]")}>
                       <button onClick={handleSearchSubMenu}>
                         <img
-                        className="w-[25px] h-[25px] ml-2"
-                        src={menuArrowLeft}
-                        alt={menuArrowLeft}
-                        width={25}
-                        height={25} />
+                          className="w-[25px] h-[25px] ml-2"
+                          src={menuArrowLeft}
+                          alt={menuArrowLeft}
+                          width={25}
+                          height={25} />
                       </button>
                       <form
                         onSubmit={formik.handleSubmit}
@@ -1036,7 +1103,7 @@ function LightHeaderB(props) {
                       <div className="flex items-center">
                         <div className="w-1/4 h-[25px] flex items-center">
                           <svg class="mx-2" width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g clip-path="url(#clip0)"><path class="fill-current" d="M19.1736 1.21319L14.2154 8.57143C13.8725 9.07253 14.5318 9.67912 15.0066 9.25714L19.8857 5.01099C20.0175 4.90549 20.2022 4.98462 20.2022 5.16923V18.4352C20.2022 18.6198 19.9648 18.6989 19.8593 18.567L5.09008 0.896703C4.61535 0.316484 3.92964 0 3.1648 0H2.63733C1.2659 0 0.131836 1.13407 0.131836 2.53187V21.2044C0.131836 22.6022 1.2659 23.7363 2.6637 23.7363C3.53403 23.7363 4.35162 23.2879 4.82634 22.5231L9.78458 15.1648C10.1274 14.6637 9.4681 14.0571 8.99337 14.4791L4.11425 18.6989C3.98239 18.8044 3.79777 18.7253 3.79777 18.5407V5.3011C3.79777 5.11648 4.03513 5.03736 4.14063 5.16923L18.9099 22.8396C19.3846 23.4198 20.0967 23.7363 20.8351 23.7363H21.3626C22.7604 23.7363 23.8945 22.6022 23.8945 21.2044V2.53187C23.8945 1.13407 22.7604 0 21.3626 0C20.4659 0 19.6483 0.448352 19.1736 1.21319V1.21319Z"></path></g><defs><clipPath id="clip0"><rect width="24" height="23.7363" fill="white"></rect></clipPath></defs></svg>
-                          
+
                         </div>
                         <p className="w-3/4">{t("Navbar.login")}</p>
                       </div>
