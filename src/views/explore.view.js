@@ -889,7 +889,7 @@ function Explore() {
                                                                 <img src={`https://nativonft.mypinata.cloud/ipfs/${item.media}`} alt="userImg" className="rounded-md object-cover object-center w-[84px] h-[84px]" />
                                                             </div>
                                                             <div className="flex flex-col-reverse pl-4 w-[185px] sm:w-[135px] md:w-[195px] lg:w-[155px] xl:w-[235px] 2xl:w-[295px]">
-                                                                <p className="font-open-sans text-[10px] xl:text-xs font-normal leading-[15px] tracking-[1px] overflow-hidden uppercase text-ellipsis whitespace-nowrap">{item.socialMedia.includes('@') ? item.socialMedia : "@" + item.socialMedia}</p>
+                                                                <p className="font-open-sans text-[10px] xl:text-xs font-normal leading-[15px] tracking-[1px] overflow-hidden uppercase text-ellipsis whitespace-nowrap">{item.socialMedia !="" ?(item.socialMedia.includes('@') ? item.socialMedia : "@" + item.socialMedia):""}</p>
                                                                 <p className="font-open-sans text-xs xl:text-base font-extrabold uppercase text-ellipsis overflow-hidden whitespace-nowrap">{item.username}</p>
                                                             </div>
                                                         </div>
