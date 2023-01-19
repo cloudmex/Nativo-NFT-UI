@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/solid";
 import { config, signOut, getNearAccount } from "../utils/near_interaction";
 import * as nearAPI from "near-api-js";
 import { blockchains } from "../utils/constraint";
-import nativoLogoWhite from '../assets/img/LogoBlanco.png'
+import nativoLogoWhite from '../assets/img/nativoart.png'
 import lupa from '../assets/landingSlider/img/lupa1.png'
 import menu from '../assets/landingSlider/img/menu.png'
 import { useTranslation } from "react-i18next";
@@ -400,7 +400,7 @@ function LightHeaderB(props) {
                     href="/"
                     className="flex flex-row"
                   >
-                    <img src={nativoLogoWhite} className="d-inline-block align-top w-[85px] lg:w-[100px] lg:h-[60px]" alt="logo" width="100px" height="60px" />
+                    <img src={nativoLogoWhite} className="d-inline-block align-top w-[85px] lg:w-[100px] lg:h-[60px] scale-125" alt="logo" width="100px" height="60px" />
                   </a>
                 </div>
                 <nav className={" lg:mr-auto lg:ml-4 lg:py-1 lg:border-l lg:border-gray-400	   items-center text-base justify-center hidden lg:flex " + (menu ? "esconder-nav" : "")}>

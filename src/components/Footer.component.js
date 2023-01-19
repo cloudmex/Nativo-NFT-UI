@@ -299,7 +299,7 @@ function LightFooterB(props) {
 
                   <div className=" w-1/5 md:w-1/2 lg:w-1/5 lg:ml-2 hover:scale-125">
                     <a
-                      href="https://twitter.com/nativonft"
+                      href="https://twitter.com/nativoart"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-gray-600  hover:text-[#ec8b01] hover:font-bold dark:text-white capitalize font-raleway font-normal text-sm"
